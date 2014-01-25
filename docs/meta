@@ -1,0 +1,8 @@
+// $file = fopen("config/user_attributes.txt","r") or die("Couldn't open");
+// while(!feof($file))
+// {
+// 	$line = fgets($file);
+// 	$sql = $sql.$line." CHAR(20), ";
+// }
+// $sql = rtrim($sql,", ").")";
+// echo $sql;

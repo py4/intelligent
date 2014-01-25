@@ -12,14 +12,8 @@ echo "<b> database created </b><br>";
 
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 
-$sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary key (id),";
-$file = fopen("config/user_attributes.txt","r") or die("Couldn't open");
-while(!feof($file))
-{
-	$line = fgets($file);
-	$sql = $sql.$line." CHAR(20), ";
-}
-$sql = rtrim($sql,", ").")";
+$sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary key (id),username CHAR(20), password CHAR(20), 
+	email CHAR(25), type INT)";
 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b>"
