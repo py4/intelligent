@@ -18,14 +18,38 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+include 'templates/header.php';
 
 function dump_signup()
 {
-	echo "<form name=\"signup_form\" onsubmit=\"return validate()\" action=\"".htmlentities($_SERVER['PHP_SELF'])."\""." method=\"post\">
-		username: <input type=\"text\" name=\"username\">
-		password: <input type=\"text\" name=\"password\">
-		<input type=\"submit\" value=\"submit\">
-	</form>";
+	?>
+	<div class="container-login">
+
+      <form class="form-horizontal signup_form" name="signup_form" onsubmit="return validate()" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+  <div class="control-group">
+    <label class="control-label" for="inputUsername">نام کاربری</label>
+    <div class="controls">
+      <input type="text" id="inputUsername" name="username" placeholder="نام کاربری">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">رمز عبور</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" name="password" placeholder="رمز عبور">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox"> مرا به خاطر بسپار
+      </label>
+      <button type="submit" class="btn btn-success">ثبت نام</button>
+    </div>
+  </div>
+</form>
+
+    </div> <!-- /container -->
+    <?
 }
 
 include("config/config.php");
@@ -35,7 +59,6 @@ if (mysqli_connect_errno())
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 
 
-$file = fopen("config/user_attributes.txt","r") or die("Couldn't open");
 $value = "";
 
 $username = "";
@@ -67,4 +90,5 @@ else {
 		echo "created";
 	}
 }
+include 'templates/footer.php';
 ?> 
