@@ -32,6 +32,9 @@
               	{
               		?>
               		<li class="active">
+              			<a href="profile.php"><i class="fa fa-user"></i> پروفایل </a>
+              		</li>
+              		<li class="active">
               			<a href="logout.php"><i class="fa fa-sign-out"></i> خروج </a>
               		</li>
               		<?
