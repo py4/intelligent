@@ -19,6 +19,16 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include 'templates/header.php';
+session_start();
+
+
+
+if($_SESSION['username'] != "")
+{
+  $_SESSION['failure_message'] = "وارد سیستم هستید.";
+  header("Location: index.php");
+  die();  
+}
 
 function dump_signup()
 {
@@ -80,14 +90,21 @@ else {
 	$result = mysqli_query($connection,"SELECT * FROM `users` WHERE `username` = '$username'") or die(mysqli_error($connection));
 	if(mysqli_num_rows($result) != 0)
 	{
-		echo "username already exists";
+		?>
+		<div class="alert alert-error">
+			نام کاربری، پیشتر گرفته شده است!
+		</div>
+		<?
 		dump_signup();
 	} else {
 		$username = mysql_real_escape_string($_POST['username']);
 		$password = mysql_real_escape_string($_POST['password']);
 		$password = md5(sha1($password));
 		$result = mysqli_query($connection,"INSERT INTO users (username,password) VALUES('$username','$password')") or die(mysqli_error($connection));
-		echo "created";
+		$_SESSION['username'] = $username;
+		$_SESSION['success_message'] = "عضو شدید!";
+		header("Location: index.php");
+		die();
 	}
 }
 include 'templates/footer.php';

@@ -1,34 +1,27 @@
 <?php
 	session_start();
 	include 'templates/header.php';
+	if ($_SESSION['success_message'] != "")
+	{
+		?>
+		<div class="alert alert-success message">
+			<?php echo $_SESSION['success_message']; ?>
+		</div>
+		<?
+		$_SESSION['success_message'] = "";
+	}
+
+	if($_SESSION['failure_message'] != "")
+	{
+		?>
+		<div class="alert alert-error message">
+			<?php echo $_SESSION['failure_message']; ?>
+		</div>
+		<?
+		$_SESSION['failure_message'] = "";
+	}
+
 	?>
-
-	<div class="container-login">
-
-      <form class="form-horizontal">
-  <div class="control-group">
-    <label class="control-label" for="inputUsername">نام کاربری</label>
-    <div class="controls">
-      <input type="text" id="inputUsername" placeholder="نام کاربری">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="inputPassword">رمز عبور</label>
-    <div class="controls">
-      <input type="password" id="inputPassword" placeholder="رمز عبور">
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="controls">
-      <label class="checkbox">
-        <input type="checkbox"> مرا به خاطر بسپار
-      </label>
-      <button type="submit" class="btn btn-success">وارد شو!</button>
-    </div>
-  </div>
-</form>
-
-    </div> <!-- /container -->
 
 	<?
 	include 'templates/footer.php';
