@@ -49,10 +49,16 @@ function dump_signup()
     </div>
   </div>
   <div class="control-group">
+    <label class="control-label" for="inputPassword">ثبت‌نام به عنوان</label>
     <div class="controls">
-      <label class="checkbox">
-        <input type="checkbox"> مرا به خاطر بسپار
-      </label>
+    	<select name="type">
+    		<option value=0>داوطلب</option>
+    		<option value=1>مشاور</option>
+    	</select>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
       <button type="submit" class="btn btn-success">ثبت نام</button>
     </div>
   </div>
@@ -74,10 +80,10 @@ $value = "";
 $username = "";
 $email = "";
 $password = "";
-if(!isset($_POST['username']) || !isset($_POST['password']))
+if(!isset($_POST['username']) || !isset($_POST['password']) || !isset($_POST['type']))
 {
 	dump_signup();
-} else if($_POST['username'] == "" or $_POST['password'] == "") {
+} else if($_POST['username'] == "" or $_POST['password'] == "" or ($_POST['type'] != 0 and $_POST['type'] != 1) ) {
 	?>
 	<?php dump_signup(); ?>
 	<script type="text/javascript">
@@ -99,8 +105,9 @@ else {
 	} else {
 		$username = mysql_real_escape_string($_POST['username']);
 		$password = mysql_real_escape_string($_POST['password']);
+		$type = $_POST['type'];
 		$password = md5(sha1($password));
-		$result = mysqli_query($connection,"INSERT INTO users (username,password) VALUES('$username','$password')") or die(mysqli_error($connection));
+		$result = mysqli_query($connection,"INSERT INTO users (username,password,type) VALUES('$username','$password','$type')") or die(mysqli_error($connection));
 		$_SESSION['username'] = $username;
 		$_SESSION['success_message'] = "عضو شدید!";
 		header("Location: index.php");

@@ -13,7 +13,7 @@ echo "<b> database created </b><br>";
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 
 $sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary key (id),username CHAR(20), password CHAR(50), 
-	email CHAR(25), type INT)";
+	email CHAR(25), type INT, adviser_id INT)";
 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b>"
