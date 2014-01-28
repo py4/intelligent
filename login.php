@@ -9,7 +9,7 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 
-if($_SESSION['username'] != "")
+if(isset($_SESSION['username']) and $_SESSION['username'] != "")
 {
   $_SESSION['failure_message'] = "وارد سیستم هستید.";
   header("Location: index.php");
@@ -18,14 +18,15 @@ if($_SESSION['username'] != "")
 
 if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
 {
+  echo "fuck3";
   ?>
     <div class="alert alert-error message">
     <?php echo $_SESSION['failure_message']; ?>
     </div>
   <?
   $_SESSION['failure_message'] = "";
-  header("Location: index.php");
-  die();
+  //header("Location: inde.php");
+  //die();
 }
 
 function dump_login()
@@ -71,7 +72,9 @@ if(!isset($_POST['username']) or !isset($_POST['password']))
   if(mysqli_num_rows($result) !== 1)
   {
     $_SESSION['failure_message'] = 'نام کاربری یا رمز عبور اشتباه می‌باشد.';    
-    dump_login();
+    header("Location: login.php");
+    die();
+    //dump_login();
   } else {
     $_SESSION['username'] = $username;
     header("Location: index.php");
