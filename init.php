@@ -22,8 +22,11 @@ $sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b><br>";
 
-$sql = "CREATE TABLE IF NOT EXISTS choices(ID int NOT NULL AUTO_INCREMENT,primary key (id), choice_count INT, choice1 CHAR(15), choice2 CHAR(15), choice3 CHAR(15), choice4 CHAR(15), choice5 CHAR(15))";
+$sql = "CREATE TABLE IF NOT EXISTS choices(ID int NOT NULL AUTO_INCREMENT,primary key (id), choice_count INT, exam_name TEXT(30), choice1 CHAR(15), choice2 CHAR(15), choice3 CHAR(15), choice4 CHAR(15), choice5 CHAR(15))";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> choice table created </b>";
+
+$sql = "CREATE TABLE IF NOT EXISTS epq(ID int NOT NULL AUTO_INCREMENT, primary key (id), question_content TEXT(150), choice1_score INT DEFAULT 0, choice2_score INT DEFAULT 0, choice3_score INT DEFAULT 0, choice4_score INT DEFAULT 0, choice5_score INT DEFAULT 0)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 ?>
