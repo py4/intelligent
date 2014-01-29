@@ -70,6 +70,7 @@ function dump_signup()
 
 include("config/config.php");
 $connection = mysqli_connect($host,$db_user,$db_password);
+$connection->set_charset("utf8");
 if (mysqli_connect_errno())
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));

@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include("config/config.php");
 $connection = mysqli_connect($host,$db_user,$db_password);
+$connection->set_charset("utf8");
 if (mysqli_connect_errno())
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
@@ -18,7 +19,6 @@ if(isset($_SESSION['username']) and $_SESSION['username'] != "")
 
 if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
 {
-  echo "fuck3";
   ?>
     <div class="alert alert-error message">
     <?php echo $_SESSION['failure_message']; ?>
