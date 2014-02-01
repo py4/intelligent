@@ -29,3 +29,32 @@ div.container-login {
 div.message {
 	margin-top: 50px;
 }
+
+div.avatar {
+  margin-top:50px;
+  margin-right:10px;
+}
+
+div.profile_title {
+  padding-top:50px;
+  padding-right:20px;
+  font-size:40px;
+}
+
+p.username {
+  font-size: 20px;
+  padding-right: 35px;
+  padding-top:10px;
+}
+
+ul.non_list {
+  list-style: none;
+}
+
+ul.profile_info_detail li {
+  font-size: 20px;
+}
+
+li.items {
+  margin-top:20px;
+}
