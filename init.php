@@ -37,11 +37,11 @@ foreach ($files as $name)
 	$choice_count = $lines[1];
 	$choices = [];	
 
-mysqli_query($connection,"DROP TABLE ".$exam_name) or die(mysqli_error($connection));
+	mysqli_query($connection,"DROP TABLE ".$exam_name); //or die(mysqli_error($connection));
 
 	$sql = "CREATE TABLE IF NOT EXISTS $exam_name(ID int NOT NULL AUTO_INCREMENT, primary key (id), question_content TEXT(150), choice1_score INT DEFAULT 0, choice2_score INT DEFAULT 0, choice3_score INT DEFAULT 0, choice4_score INT DEFAULT 0, choice5_score INT DEFAULT 0)";
-mysqli_query($connection,$sql) or die(mysqli_error($connection));
-
+	mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	
 	$sql = "DELETE FROM choices WHERE exam_name='$exam_name'";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
 	echo "=&gt; removed choices row with exam_name: ".$exam_name."<br>";
@@ -50,22 +50,22 @@ mysqli_query($connection,$sql) or die(mysqli_error($connection));
 	for($i = 0; $i < 5; $i++)
 		if(!isset($choices[$i]))
 			$choices[$i] = NULL;
-	$sql = "INSERT INTO choices(choice_count,exam_name,choice1,choice2,choice3,choice4,choice5) VALUES('$choice_count','$exam_name','$choices[0]','$choices[1]','$choices[2]','$choices[3]','$choices[4]')";
-	mysqli_query($connection,$sql) or die(mysqli_error($connection));
-	echo "=&gt; added ".$choice_count." choices for exam: ".$exam_name."<br>";
-	$question_start_index = 2+$choice_count;
-	for($i = $question_start_index; $i < count($lines); $i += $choice_count+1)
-	{
-		$scores = [];
-		for($j = 0; $j < $choice_count; $j++)
-			$scores[$j] = $lines[$i+$j+1];
-		for($j=0; $j < 5; $j++)
-			if(!isset($scores[$j]))
-				$scores[$j] = NULL;
-		$sql = "INSERT INTO $exam_name(question_content,choice1_score,choice2_score,choice3_score,choice4_score,choice5_score) VALUES('$lines[$i]','$scores[0]','$scores[1]','$scores[2]','$scores[3]','$scores[4]')";
-		mysqli_query($connection,$sql) or die(mysqli_error());
-	}
-	echo "=&gt; ".((count($lines) - $question_start_index)/($choice_count+1))." questions added to exam ".$exam_name."<br>";
-}
+		$sql = "INSERT INTO choices(choice_count,exam_name,choice1,choice2,choice3,choice4,choice5) VALUES('$choice_count','$exam_name','$choices[0]','$choices[1]','$choices[2]','$choices[3]','$choices[4]')";
+		mysqli_query($connection,$sql) or die(mysqli_error($connection));
+		echo "=&gt; added ".$choice_count." choices for exam: ".$exam_name."<br>";
+		$question_start_index = 2+$choice_count;
+		for($i = $question_start_index; $i < count($lines); $i += $choice_count+1)
+		{
+			$scores = [];
+			for($j = 0; $j < $choice_count; $j++)
+				$scores[$j] = $lines[$i+$j+1];
+			for($j=0; $j < 5; $j++)
+				if(!isset($scores[$j]))
+					$scores[$j] = NULL;
+				$sql = "INSERT INTO $exam_name(question_content,choice1_score,choice2_score,choice3_score,choice4_score,choice5_score) VALUES('$lines[$i]','$scores[0]','$scores[1]','$scores[2]','$scores[3]','$scores[4]')";
+				mysqli_query($connection,$sql) or die(mysqli_error());
+			}
+			echo "=&gt; ".((count($lines) - $question_start_index)/($choice_count+1))." questions added to exam ".$exam_name."<br>";
+		}
 
-?>
+		?>
