@@ -43,7 +43,7 @@ div.profile_title {
 
 p.username {
   font-size: 20px;
-  padding-right: 35px;
+  padding-right: 75px;
   padding-top:10px;
 }
 
@@ -52,9 +52,13 @@ ul.non_list {
 }
 
 ul.profile_info_detail li {
-  font-size: 20px;
+  font-size: 15px;
 }
 
-li.items {
-  margin-top:20px;
+ul.exams li {
+  margin-top: 10px;
 }
+
+div.profile_progress {
+}
+
