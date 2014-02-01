@@ -18,7 +18,7 @@
 			<div class="row">
 				<div class="span1">
 				</div>
-				<div class="span5">
+				<div class="span4">
 					<ul class="thumbnails">
 						<li class="span3">
 							<a href="#" class="thumbnail">
@@ -44,7 +44,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="span6">
+				<div class="span6 with-border">
 					<div class="alert alert-success">
 						آزمون‌ها
 					</div>
@@ -66,20 +66,21 @@
 						</div>
 					</div>
 				</div>
-				<div class="span4">
-				<div class="alert alert-error">
-						مشاور
+				<div class="span4 with-border">
+					<div class="alert alert-error">
+							مشاور
+						</div>
+						<ul class="thumbnails">
+							<li class="span2">
+								<a href="#" class="thumbnail">
+									 <img src="img/adviser.png" alt="">
+								</a>
+								<p class="username">
+									felani
+								</p>
+							</li>
+						</ul>
 					</div>
-					<ul class="thumbnails">
-						<li class="span2">
-							<a href="#" class="thumbnail">
-								 <img src="img/adviser.png" alt="">
-							</a>
-							<p class="username">
-								felani
-							</p>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
