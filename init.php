@@ -27,21 +27,28 @@ $sql = "CREATE TABLE IF NOT EXISTS choices(ID int NOT NULL AUTO_INCREMENT,primar
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> choice table created </b><br>";
 
+$sql = "CREATE TABLE IF NOT EXISTS scores(ID int not NULL AUTO_INCREMENT, primary key(id), exam_name TEXT, user_id INT, score INT)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+
 $files = scandir("metadata/exams");
 foreach ($files as $name)
 {
 	if($name == "." or $name == "..")
 		continue;
 	$lines = file("metadata/exams/".$name);
-	$exam_name = $lines[0];
+	$exam_name = trim($lines[0]);
+	$exam_scores_name = $exam_name.'_scores';
 	$choice_count = $lines[1];
 	$choices = [];	
 
 	mysqli_query($connection,"DROP TABLE ".$exam_name); //or die(mysqli_error($connection));
-
+	mysqli_query($connection,"DROP TABLE ".$exam_scores_name);
+	
 	$sql = "CREATE TABLE IF NOT EXISTS $exam_name(ID int NOT NULL AUTO_INCREMENT, primary key (id), question_content TEXT(150), choice1_score INT DEFAULT 0, choice2_score INT DEFAULT 0, choice3_score INT DEFAULT 0, choice4_score INT DEFAULT 0, choice5_score INT DEFAULT 0)";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
-	
+	//$sql = "CREATE TABLE IF NOT EXISTS $exam_scores_name(user_id INT, score INT)";
+	//mysqli_query($connection,$sql) or die(mysqli_error($connection));
+
 	$sql = "DELETE FROM choices WHERE exam_name='$exam_name'";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
 	echo "=&gt; removed choices row with exam_name: ".$exam_name."<br>";
