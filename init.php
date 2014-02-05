@@ -23,7 +23,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b><br>";
 
-$sql = "CREATE TABLE IF NOT EXISTS user_exams(user_id INT, exam_name TEXT)";
+$sql = "CREATE TABLE IF NOT EXISTS user_exams(username CHAR(20), exam_name TEXT)";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "=&gt; user_exams table created <br>";
 
@@ -32,6 +32,9 @@ mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> choice table created </b><br>";
 
 $sql = "CREATE TABLE IF NOT EXISTS scores(ID int not NULL AUTO_INCREMENT, primary key(id), exam_name TEXT, user_id INT, score INT)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+
+$sql = "CREATE TABLE IF NOT EXISTS exams_list(exam_name TEXT)";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 $files = scandir("metadata/exams");
@@ -49,6 +52,9 @@ foreach ($files as $name)
 	mysqli_query($connection,"DROP TABLE ".$exam_scores_name);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS $exam_name(ID int NOT NULL AUTO_INCREMENT, primary key (id), question_content TEXT(150), choice1_score INT DEFAULT 0, choice2_score INT DEFAULT 0, choice3_score INT DEFAULT 0, choice4_score INT DEFAULT 0, choice5_score INT DEFAULT 0)";
+	mysqli_query($connection,$sql) or die(mysqli_error($connection));
+
+	$sql = "INSERT INTO exams_list(exam_name) VALUES('$exam_name')";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 	$sql = "DELETE FROM choices WHERE exam_name='$exam_name'";

@@ -9,6 +9,19 @@
 		$_SESSION['failure_message'] = 'باید وارد شوید!';
 		die();
 	}
+
+	if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
+{
+  ?>
+    <div class="alert alert-error message">
+    <?php echo $_SESSION['failure_message']; ?>
+    </div>
+  <?
+  $_SESSION['failure_message'] = "";
+  //header("Location: inde.php");
+  //die();
+}
+
 	?>
 		<br><br><br>
 		<div class="alert alert-info">
