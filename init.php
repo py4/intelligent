@@ -23,7 +23,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b><br>";
 
-$sql = "CREATE TABLE IF NOT EXISTS user_exams(username CHAR(20), exam_name TEXT)";
+$sql = "CREATE TABLE IF NOT EXISTS user_exams(username CHAR(20), exam_name TEXT, answered BOOLEAN DEFAULT 0)";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "=&gt; user_exams table created <br>";
 

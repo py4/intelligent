@@ -1,102 +1,144 @@
 <?php
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	session_start();
-	include 'templates/header.php';
-	if(!isset($_SESSION['username']))
-	{
-		header("Location: login.php");
-		$_SESSION['failure_message'] = 'باید وارد شوید!';
-		die();
-	}
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
+include 'templates/header.php';
+include("config/config.php");
+$connection = mysqli_connect($host,$db_user,$db_password);
+mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
+if(!$connection->set_charset("utf8"))
+	printf("Error loading character set utf8: %s\n", mysqli_error($connection));
 
-	if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
+if (mysqli_connect_errno())
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+
+if(!isset($_SESSION['username']))
 {
-  ?>
-    <div class="alert alert-error message">
-    <?php echo $_SESSION['failure_message']; ?>
-    </div>
-  <?
-  $_SESSION['failure_message'] = "";
+	header("Location: login.php");
+	$_SESSION['failure_message'] = 'باید وارد شوید!';
+	die();
+}
+
+if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
+{
+	?>
+	<div class="alert alert-error message">
+		<?php echo $_SESSION['failure_message']; ?>
+	</div>
+	<?
+	$_SESSION['failure_message'] = "";
   //header("Location: inde.php");
   //die();
 }
 
+if ($_SESSION['success_message'] != "")
+{
 	?>
-		<br><br><br>
-		<div class="alert alert-info">
-			پروفایل
+	<div class="alert alert-success message">
+		<?php echo $_SESSION['success_message']; ?>
+	</div>
+	<?
+	$_SESSION['success_message'] = "";
+}
+
+?>
+<br><br><br>
+<div class="alert alert-info">
+	پروفایل
+</div>
+<div class="profile_info">
+	<div class="row">
+		<div class="span1">
 		</div>
-		<div class="profile_info">
-			<div class="row">
-				<div class="span1">
-				</div>
-				<div class="span4">
-					<ul class="thumbnails">
-						<li class="span3">
-							<a href="#" class="thumbnail">
-								 <img src="img/avatar.png" alt="">
-							</a>
-							<p class="username">
-								ibtkm
-							</p>
-							<ul class="non_list profile_info_detail">
-								<li class="items">	
-									<i class="fa fa-question-circle"></i>
-											پویا مرادی 
-								</li>
-								<li class="items">
-									<i class="fa fa-envelope"></i>
-									ibtkm2009@gmail.com
-								</li>
-								<li class="items">
-									<i class="fa fa-phone-square"></i>
-									09124584887
-								</li>
-							</ul>
+		<div class="span4">
+			<ul class="thumbnails">
+				<li class="span3">
+					<a href="#" class="thumbnail">
+						<img src="img/avatar.png" alt="">
+					</a>
+					<p class="username">
+						ibtkm
+					</p>
+					<ul class="non_list profile_info_detail">
+						<li class="items">	
+							<i class="fa fa-question-circle"></i>
+							پویا مرادی 
+						</li>
+						<li class="items">
+							<i class="fa fa-envelope"></i>
+							ibtkm2009@gmail.com
+						</li>
+						<li class="items">
+							<i class="fa fa-phone-square"></i>
+							09124584887
 						</li>
 					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="span6 with-border">
+			<div class="alert alert-success">
+				آزمون‌ها
+			</div>
+			<div class="row">
+				<div class="span2">
+					<ul class="non_list exams">
+						<?php
+							$user_name = $_SESSION['username'];
+							$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
+							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+							$exams = array();
+							$not_answered = 0;
+							$answered = 0;
+							while($row = mysqli_fetch_assoc($result))
+							{
+								$exam_name = $row['exam_name'];
+								if($row['answered'])
+								{
+									$answered++;
+									?>
+									<li> <span class="label label-success">دادید</span> <?echo $exam_name;?> </li>
+									<?			
+								}
+								else
+								{
+									$not_answered++;
+									?>
+									<li> <span class="label label-important">مانده</span> <?echo $exam_name; ?> </li>
+									<?
+
+								}
+							}
+						?>
+					</ul>
 				</div>
-				<div class="span6 with-border">
-					<div class="alert alert-success">
-						آزمون‌ها
-					</div>
-					<div class="row">
-						<div class="span2">
-							<ul class="non_list exams">
-								<li> <span class="label label-important">مانده</span> آزمون آیزنگ </li>
-								<li> <span class="label label-important">مانده</span> آزمون هالند </li>
-								<li> <span class="label label-success">دادید</span> آزمون فلان </li>
-								<li> <span class="label label-important">مانده</span> آزمون فیشر </li>
-								<li> <span class="label label-success">دادید</span> آزمون اکبر </li>
-							</ul>
-						</div>
-						<div class="span4 profile_progress">
-							<span class="label label-inverse"> پیشرفت: </span>
-							<div class="progress progress-success">
-								<div class="bar" style="width: 40%"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="span4 with-border">
-					<div class="alert alert-error">
-							مشاور
-						</div>
-						<ul class="thumbnails">
-							<li class="span2">
-								<a href="#" class="thumbnail">
-									 <img src="img/adviser.png" alt="">
-								</a>
-								<p class="username">
-									felani
-								</p>
-							</li>
-						</ul>
+				<div class="span4 profile_progress">
+					<span class="label label-inverse"> پیشرفت: </span>
+					<div class="progress progress-success">
+						<div class="bar" style="width: <?php echo 100*$answered / ($answered + $not_answered)?>%"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-	<?
-	include 'templates/footer.php';
+		<div class="span4 with-border">
+			<div class="alert alert-error">
+				مشاور
+			</div>
+			<ul class="thumbnails">
+				<li class="span2">
+					<a href="#" class="thumbnail">
+						<img src="img/adviser.png" alt="">
+					</a>
+					<p class="username">
+						felani
+					</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
+<?
+include 'templates/footer.php';
 ?>

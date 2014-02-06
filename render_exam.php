@@ -19,6 +19,13 @@ if(isset($_POST['answers']))
 	$answers = $_POST['answers'];
 	for($i = 0; $i < count($answers); $i++)
 		$score += $questions[$i]["choice".($answers[$i]+1)."_score"];
+	$sql = "INSERT INTO scores(exam_name,user_id,score) VALUES('$exam_name','$user_id','$score')";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$sql = "UPDATE user_exams SET answered=1 WHERE exam_name='$exam_name'";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$_SESSION['success_message'] = "نتیجه‌ی آزمون با موفقیت ثبت شد.";
+	header("Location: profile.php");
+	die();
 }
 else
 {
