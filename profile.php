@@ -105,7 +105,11 @@ if ($_SESSION['success_message'] != "")
 								{
 									$not_answered++;
 									?>
-									<li> <span class="label label-important">مانده</span> <?echo $exam_name; ?> </li>
+									<li> <span class="label label-important">مانده</span>
+										<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
+											<?echo $exam_name; ?>
+										</a>
+									</li>
 									<?
 
 								}
