@@ -20,7 +20,7 @@ if(!isset($_SESSION['username']))
 
 if(!isset($_GET['exam_name']))
 {
-	header("Location: profile.php");
+	header("Location: user_profile.php");
 	$_SESSION['failure_message'] = 'آزمون یافت نشد۱.';
 	die();
 }
@@ -30,7 +30,7 @@ $sql = "SELECT * FROM exams_list WHERE exam_name = '$exam_name'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 if(mysqli_num_rows($result) == 0)
 {
-	header("Location: profile.php");
+	header("Location: user_profile.php");
 	$_SESSION['failure_message'] = "آزمون یافت نشد۲.";
 	die();
 }
@@ -39,7 +39,7 @@ $sql = "SELECT * FROM user_exams WHERE exam_name = '$exam_name' AND username = '
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 if(mysqli_num_rows($result) == 0)
 {
-	header("Location: profile.php");
+	header("Location: user_profile.php");
 	$_SESSION['failure_message'] = 'آزمون یافت نشد۳';
 	die();
 }
@@ -51,7 +51,7 @@ $sql = "SELECT * FROM scores WHERE exam_name = '$exam_name' AND user_id = '$user
 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
 if(mysqli_num_rows($result) != 0)
 {
-	header("Location: profile.php");
+	header("Location: user_profile.php");
 	$_SESSION['failure_message'] = 'قبلا آزمون را پاسخ داده‌اید.';
 	die();
 }

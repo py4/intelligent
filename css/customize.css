@@ -17,6 +17,10 @@ a:hover, a:visited, a:link, a:active
     text-decoration: none;
 }
 
+a.by {
+  color:red;
+}
+
 div#footer {
 	text-align: center;
 }
@@ -77,3 +81,35 @@ div.first_person {
 div.second_person {
   float: left;
 }
+
+div.exam_title {
+  margin-top:50px;
+}
+
+div.question {
+  margin-top:50px;
+ border: 1px solid #d5d5d5;
+  -webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px; 
+}
+
+div.choices {
+  margin-right: 20px;
+}
+
+input.question_submit {
+  margin-top: 10px;
+}
+
+h3.question {
+  margin-right: 10px;
+}
+
+div#footer {
+  background-color: black;
+  padding-top: 20px;
+}
+
+div.inline { float:right; }
+.clearBoth { clear:both; }

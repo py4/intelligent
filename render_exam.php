@@ -24,38 +24,43 @@ if(isset($_POST['answers']))
 	$sql = "UPDATE user_exams SET answered=1 WHERE exam_name='$exam_name'";
 	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 	$_SESSION['success_message'] = "نتیجه‌ی آزمون با موفقیت ثبت شد.";
-	header("Location: profile.php");
+	header("Location: user_profile.php");
 	die();
 }
 else
 {
 	?>
-	<form action="<?php echo $_SERVER['PHP_SELF']."?exam_name=".$exam_name; ?>" method="post" id="exam">
-		<?php
-
-		for($i = 0; $i < count($questions) ; $i++)
-		{
-			?>
-			<li>
-				<h3><?php echo $questions[$i]['question_content']; ?></h3>
-				<?php
-				for($j = 0; $j < count($choices); $j++)
-				{
-					$label = 'question-'.$i.'-answers-'.$j;
-					?>
-					<div>
-						<input type="radio" name="answers[<?php echo $i; ?>]" id="<?php echo $label; ?>" value="<?php echo $j; ?>">
-						<label for="<?php echo $label; ?>"><?php echo $j+1; ?>) <?php echo $choices[$j]; ?> </label>
-					</div>
-					<?php
-
-				}
-				?>
-			</li>
+	<div class="questions">
+		<form action="<?php echo $_SERVER['PHP_SELF']."?exam_name=".$exam_name; ?>" method="post" id="exam">
+			<ul style="list-style: none;">
 			<?php
-		} ?>
-		<input type="submit" value="Submit Quiz" />
-	</form>
+			for($i = 0; $i < count($questions) ; $i++)
+			{
+				?>
+				<li>
+					<div class="question">
+					<h3 class="question"><?php echo $questions[$i]['question_content']; ?></h3>
+					<?php
+					for($j = 0; $j < count($choices); $j++)
+					{
+						$label = 'question-'.$i.'-answers-'.$j;
+						?>
+						<div class="inline choices">
+							<label for="<?php echo $label; ?>"><?php echo $j+1; ?>) <input type="radio" name="answers[<?php echo $i; ?>]" id="<?php echo $label; ?>" value="<?php echo $j; ?>"> <?php echo $choices[$j]; ?></label>
+						</div>
+						<?php
+
+					}
+					?>
+					<br class="clear">
+					</div>
+				</li>
+				<?php
+			} ?>
+			<center><input type="submit" value="ثبت کن" class="btn btn-success question_submit"/></center>
+			</ul>
+		</form>
+	</div>
 	<?php
 }
 	//getting questions

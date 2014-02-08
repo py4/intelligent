@@ -20,9 +20,9 @@ if(isset($_SESSION['username']) and $_SESSION['username'] != "")
 if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
 {
   ?>
-    <div class="alert alert-error message">
+  <div class="alert alert-error message">
     <?php echo $_SESSION['failure_message']; ?>
-    </div>
+  </div>
   <?
   $_SESSION['failure_message'] = "";
   //header("Location: inde.php");
@@ -34,31 +34,40 @@ function dump_login()
   ?>
   <div class="container-login">
 
-  <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <div class="control-group">
-      <label class="control-label" for="inputUsername">نام کاربری</label>
-      <div class="controls">
-        <input type="text" id="inputUsername" name="username" placeholder="نام کاربری">
+    <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+      <div class="control-group">
+        <label class="control-label" for="inputUsername">نام کاربری</label>
+        <div class="controls">
+          <input type="text" id="inputUsername" name="username" placeholder="نام کاربری">
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputPassword">رمز عبور</label>
-      <div class="controls">
-        <input type="password" id="inputPassword" name="password" placeholder="رمز عبور">
+      <div class="control-group">
+        <label class="control-label" for="inputPassword">رمز عبور</label>
+        <div class="controls">
+          <input type="password" id="inputPassword" name="password" placeholder="رمز عبور">
+        </div>
       </div>
-    </div>
-    <div class="control-group">
-      <div class="controls">
-        <label class="checkbox">
-          <input type="checkbox"> مرا به خاطر بسپار
-        </label>
-        <button type="submit" class="btn btn-success">وارد شو!</button>
+      <div class="control-group">
+      <label class="control-label" for="inputPassword">ورود به عنوان</label>
+        <div class="controls">
+          <select name="type">
+            <option value=0>داوطلب</option>
+            <option value=1>مشاور</option>
+          </select>
+        </div>
       </div>
-    </div>
-  </form>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox"> مرا به خاطر بسپار
+          </label>
+          <button type="submit" class="btn btn-success">وارد شو!</button>
+        </div>
+      </div>
+    </form>
 
-</div> <!-- /container -->
-<?
+  </div> <!-- /container -->
+  <?
 }
 
 if(!isset($_POST['username']) or !isset($_POST['password']))
@@ -68,7 +77,8 @@ if(!isset($_POST['username']) or !isset($_POST['password']))
   $username = mysql_real_escape_string($_POST['username']);
   $password = mysql_real_escape_string($_POST['password']);
   $password = md5(sha1($password));
-  $result = mysqli_query($connection,"SELECT * FROM users WHERE username = '$username' AND password = '$password'") or die(mysqli_error($connection));
+  $type = $_POST['type'];
+  $result = mysqli_query($connection,"SELECT * FROM users WHERE username = '$username' AND password = '$password' and type = '$type'") or die(mysqli_error($connection));
   if(mysqli_num_rows($result) !== 1)
   {
     $_SESSION['failure_message'] = 'نام کاربری یا رمز عبور اشتباه می‌باشد.';    

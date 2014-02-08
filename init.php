@@ -18,7 +18,7 @@ echo "<b> database created </b><br>";
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 
 $sql = "CREATE TABLE IF NOT EXISTS users(ID int NOT NULL AUTO_INCREMENT,primary key (id),username CHAR(20), password CHAR(50), 
-	email CHAR(25), type INT, adviser_id INT) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
+	email CHAR(25), type INT, adviser_id INT, code char(50)) DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci";
 
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 echo "<b> User table created </b><br>";

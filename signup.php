@@ -30,6 +30,15 @@ if($_SESSION['username'] != "")
   die();  
 }
 
+function generate_randon_string($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $randomString;
+}
+
 function dump_signup()
 {
 	?>
@@ -108,9 +117,10 @@ else {
 		$password = mysql_real_escape_string($_POST['password']);
 		$type = $_POST['type'];
 		$password = md5(sha1($password));
-		$result = mysqli_query($connection,"INSERT INTO users (username,password,type) VALUES('$username','$password','$type')") or die(mysqli_error($connection));
+		$code = generate_randon_string();
+		$result = mysqli_query($connection,"INSERT INTO users (username,password,type,code) VALUES('$username','$password','$type','$code')") or die(mysqli_error($connection));
 		$_SESSION['username'] = $username;
-		$_SESSION['success_message'] = "عضو شدید!";
+		$_SESSION['success_message'] = "عضو شدید! کد کابربری شما '$code' است. آن را به مشاور بدهید تا به کاربران او اضافه شوید. این کد محرمانه است!";
 		header("Location: index.php");
 		die();
 	}
