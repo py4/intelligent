@@ -120,6 +120,7 @@ else {
 		$code = generate_randon_string();
 		$result = mysqli_query($connection,"INSERT INTO users (username,password,type,code) VALUES('$username','$password','$type','$code')") or die(mysqli_error($connection));
 		$_SESSION['username'] = $username;
+		$_SESSION['type'] = $type;
 		$_SESSION['success_message'] = "عضو شدید! کد کابربری شما '$code' است. آن را به مشاور بدهید تا به کاربران او اضافه شوید. این کد محرمانه است!";
 		header("Location: index.php");
 		die();

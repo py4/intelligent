@@ -86,6 +86,7 @@ if(!isset($_POST['username']) or !isset($_POST['password']))
     die();
     //dump_login();
   } else {
+    $_SESSION['type'] = $type;
     $_SESSION['username'] = $username;
     header("Location: index.php");
     die();

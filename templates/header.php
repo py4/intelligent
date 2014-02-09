@@ -32,7 +32,20 @@
               	{
               		?>
               		<li class="active">
-              			<a href="user_profile.php"><i class="fa fa-user"></i> پروفایل </a>
+                    <?
+                    if(isset($_SESSION['type']) and $_SESSION['type'] == 0)
+                    {
+                      ?>
+              			   <a href="user_profile.php"><i class="fa fa-user"></i> پروفایل </a>
+                      <?
+                    }
+                    else if(isset($_SESSION['type']) and $_SESSION['type'] == 1)
+                    {
+                      ?>
+                        <a href="adviser.php"><i class="fa fa-user"></i> پروفایل </a>
+                      <?
+                    }
+                  ?>
               		</li>
               		<li class="active">
               			<a href="logout.php"><i class="fa fa-sign-out"></i> خروج </a>
