@@ -113,3 +113,29 @@ div#footer {
 
 div.inline { float:right; }
 .clearBoth { clear:both; }
+
+.icon-zoom-in
+{
+  position:relative;
+  left:23px;
+  top:-8px;
+  z-index:999;
+}
+.input-append input
+{
+  height:20px;
+  padding-left:25px;
+}
+
+div.user_search form.form-search {
+  padding-right: 35px;
+  padding-bottom: 10px;
+  padding-top:90px;
+}
+
+
+div.user_add form.form-search {
+  padding-right: 15px;
+  padding-bottom: 10px;
+  padding-top:90px;
+}

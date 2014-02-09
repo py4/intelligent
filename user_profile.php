@@ -41,6 +41,17 @@ if (isset($_SESSSION['success_message']) and $_SESSION['success_message'] != "")
 	<?
 	$_SESSION['success_message'] = "";
 }
+$user_name = $_SESSION['username'];
+$sql = "SELECT * FROM users WHERE username = '$user_name'";
+$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+$user = mysqli_fetch_assoc($result);
+
+// while($row = mysqli_fetch_assoc($result))
+// {
+// 	for($i = 0; $i < $row['choice_count']; $i++)
+// 		$choices[] = $row['choice'.($i+1)];
+// }
+
 
 ?>
 <br><br><br>
@@ -58,24 +69,25 @@ if (isset($_SESSSION['success_message']) and $_SESSION['success_message'] != "")
 						<img src="img/avatar.png" alt="">
 					</a>
 					<p class="username">
-						ibtkm
+						<? echo $user['username']; ?>
 					</p>
 					<ul class="non_list profile_info_detail">
 						<li class="items">	
 							<i class="fa fa-question-circle"></i>
-							پویا مرادی 
+							<? echo $user['name']; ?>
+							<? echo $user['family_name']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-envelope"></i>
-							ibtkm2009@gmail.com
+							<? echo $user['email']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-phone-square"></i>
-							09124584887
+							<? echo $user['phone_number']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-barcode"></i>
-							sdSf923Ssc
+							<? echo $user['code']; ?>
 						</li>
 					</ul>
 				</li>
@@ -89,7 +101,6 @@ if (isset($_SESSSION['success_message']) and $_SESSION['success_message'] != "")
 				<div class="span2">
 					<ul class="non_list exams">
 						<?php
-							$user_name = $_SESSION['username'];
 							$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
 							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 							$exams = array();

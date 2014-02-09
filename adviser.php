@@ -42,7 +42,13 @@ if (isset($_SESSSION['success_message']) and $_SESSION['success_message'] != "")
 	$_SESSION['success_message'] = "";
 }
 
+$user_name = $_SESSION['username'];
+$sql = "SELECT * FROM users WHERE username = '$user_name'";
+$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+$user = mysqli_fetch_assoc($result);
+
 ?>
+
 <br><br><br>
 <div class="alert alert-info">
 	پروفایل
@@ -58,74 +64,77 @@ if (isset($_SESSSION['success_message']) and $_SESSION['success_message'] != "")
 						<img src="img/avatar.png" alt="">
 					</a>
 					<p class="username">
-						ibtkm
+						<? echo $user['username']; ?>
 					</p>
 					<ul class="non_list profile_info_detail">
 						<li class="items">	
 							<i class="fa fa-question-circle"></i>
-							پویا مرادی 
+							<? echo $user['name']; ?>
+							<? echo $user['family_name']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-envelope"></i>
-							ibtkm2009@gmail.com
+							<? echo $user['email']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-phone-square"></i>
-							09124584887
+							<? echo $user['phone_number']; ?>
 						</li>
 						<li class="items">
 							<i class="fa fa-barcode"></i>
-							sdSf923Ssc
+							<? echo $user['code']; ?>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</div>
-		<div class="span7 with-border">
+		<div class="span3 with-border">
 			<div class="alert alert-success">
-				آزمون‌ها
+				کاربران
 			</div>
 			<div class="row">
 				<div class="span2">
-					<ul class="non_list exams">
-						<?php
-							$user_name = $_SESSION['username'];
-							$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
-							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-							$exams = array();
-							$not_answered = 0;
-							$answered = 0;
-							while($row = mysqli_fetch_assoc($result))
-							{
-								$exam_name = $row['exam_name'];
-								if($row['answered'])
-								{
-									$answered++;
-									?>
-									<li> <span class="label label-success">دادید</span> <?echo $exam_name;?> </li>
-									<?			
-								}
-								else
-								{
-									$not_answered++;
-									?>
-									<li> <span class="label label-important">مانده</span>
-										<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
-											<?echo $exam_name; ?>
-										</a>
-									</li>
-									<?
-
-								}
-							}
-						?>
+					<ul class="adviser_users non_list">
+						<li> <a href="#"> felan1 </a> </li>
+						<li> <a href="#"> felan2 </a> </li>
+						<li> <a href="#"> felan3 </a> </li>
+						<li> <a href="#"> felan4 </a> </li>
+						<li> <a href="#"> felan5 </a> </li>
+						<li> <a href="#"> felan6 </a> </li>
 					</ul>
 				</div>
 				<div class="span4 profile_progress">
-					<span class="label label-inverse"> پیشرفت: </span>
-					<div class="progress progress-success">
-						<div class="bar" style="width: <?php echo 100*$answered / ($answered + $not_answered)?>%"></div>
-					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span4 with-border">
+			<div class="alert alert-info">
+				جست‌وجوی کاربران
+			</div>
+			<div class="row">
+				<div class="span3 user_search">
+					<form class="navbar-form form-search">
+						<div class="input-append">
+        					<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query">
+        						<button class="btn btn-success">بیاب</button>
+    					</div>
+  					</form>
+				</div>
+			</div>
+		</div>
+		<div class="span4 with-border">
+			<div class="alert alert-info">
+				اضافه کردن کاربران
+			</div>
+			<div class="row">
+				<div class="span3 user_add">
+					<form class="navbar-form form-search">
+						<div class="input-append">
+						<span class="label label-inverse">کد کاربری</span>
+        					<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query">
+        						<button class="btn btn-success">بیاب</button>
+    					</div>
+  					</form>
 				</div>
 			</div>
 		</div>
