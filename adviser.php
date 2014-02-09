@@ -95,12 +95,17 @@ $user = mysqli_fetch_assoc($result);
 			<div class="row">
 				<div class="span2">
 					<ul class="adviser_users non_list">
-						<li> <a href="#"> felan1 </a> </li>
-						<li> <a href="#"> felan2 </a> </li>
-						<li> <a href="#"> felan3 </a> </li>
-						<li> <a href="#"> felan4 </a> </li>
-						<li> <a href="#"> felan5 </a> </li>
-						<li> <a href="#"> felan6 </a> </li>
+					<?
+						$code = $user['code'];
+						$sql = "SELECT * FROM users WHERE adviser_code = '$code'";
+						$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+						while($u = mysqli_fetch_assoc($result))
+						{
+							?>
+							<li> <a href="#"> <? echo $u['name']." ".$u['family_name']."(".$u['username'].")"; ?> </a> </li>
+							<?
+						}
+						?>
 					</ul>
 				</div>
 				<div class="span4 profile_progress">
