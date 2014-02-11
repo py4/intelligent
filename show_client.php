@@ -137,14 +137,23 @@ if(count($client) == 0)
 				</li>
 			</ul>
 		</div>
-		<div class="span7 with-border">
+		<div class="span7 with-border client_exams">
 			<div class="alert alert-success">
 				آزمون‌ها
 			</div>
 			<div class="row">
-				<div class="span2">
-					<ul class="non_list exams">
-						<?php
+				<div class="span4">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th> وضعیت </th>
+								<th> نام آزمون </th>
+								<th> نتیجه </th>
+								<th> عملیات </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
 							$sql = "SELECT * FROM user_exams WHERE username = '$client_username'";
 							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 							$exams = array();
@@ -152,42 +161,60 @@ if(count($client) == 0)
 							$answered = 0;
 							while($row = mysqli_fetch_assoc($result))
 							{
-								$exam_name = $row['exam_name'];
-								if($row['answered'])
-								{
-									$answered++;
-									?>
-									<li> <span class="label label-success">دادید</span> <?echo $exam_name;?> </li>
-									<?			
-								}
-								else
-								{
-									$not_answered++;
-									?>
-									<li> <span class="label label-important">مانده</span>
-										<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
-											<?echo $exam_name; ?>
-										</a>
-									</li>
+								?>
+								<tr>
 									<?
+									$exam_name = $row['exam_name'];
+									if($row['answered'])
+									{
+										$answered++;
+										?>
+										<td><span class="label label-success">داده</span></td>
+										<td><? echo $exam_name ?></td>
+										<td>
+											<?php
+											$client_id = $client['id'];
+											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
+											$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+											$data = mysql_fetch_assoc($result);
+											echo $data['score'];
+											?>
+										</td>
+										<?			
+									}
+									else
+									{
+										$not_answered++;
+										?>
+										<td><span class="label label-important">نداده</span></td>
+										<td><? echo $exam_name ?></td>
+										<td> ؟ </td>
+										<?
 
-								}
+									}
+									?>
+									<td> <a href="#">حذف</a></td>
+								</tr>
+								<?
 							}
-						?>
-					</ul>
-				</div>
-				<div class="span4 profile_progress">
-					<span class="label label-inverse"> پیشرفت: </span>
-					<div class="progress progress-success">
-						<div class="bar" style="width: <?php echo 100*$answered / ($answered + $not_answered)?>%"></div>
-					</div>
-				</div>
+							?>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="span2">
+				<p>آزمون جدید لازم است؟ </p> 
+				<select name="type">
+					<option value=0>داوطلب</option>
+					<option value=1>مشاور</option>
+				</select>
 			</div>
 		</div>
-		
-		<div class="span3">
-		</div>
-	</div>		
+	</div>
+
+	<div class="span3">
+	</div>
+</div>		
 </div>
 </div>
 <?

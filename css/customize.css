@@ -143,3 +143,11 @@ div.user_add form.form-search {
 div.client_in_adviser {
   margin-top: 50px;
 }
+
+div.client_exams {
+  margin-top: 100px;
+}
+
+.label {
+  padding: 6px 9px;
+}
