@@ -70,32 +70,32 @@ if(count($client) == 0)
 
 <br><br><br>
 <p class="show_client_title">
-مشاهده‌ی داوطلب
+	مشاهده‌ی داوطلب
 </p>
 <div class="container-fluid client_view">
 	<div class="row-fluid">
 		<div class="span3 client_info">
 			<img class="avatar user_pic" src="img/adviser.png">
 			<p class="username">
-				<? echo $user['username']; ?>
+				<? echo $client['username']; ?>
 			</p>
 			<ul class="non_list profile_info_detail">
 				<li class="items">	
 					<i class="fa fa-question-circle"></i>
-					<? echo $user['name']; ?>
-					<? echo $user['family_name']; ?>
+					<? echo $client['name']; ?>
+					<? echo $client['family_name']; ?>
 				</li>
 				<li class="items" lang="en">
 					<i class="fa fa-envelope"></i>
-					<? echo $user['email']; ?>
+					<? echo $client['email']; ?>
 				</li>
 				<li class="items" lang="en">
 					<i class="fa fa-phone-square"></i>
-					<? echo $user['phone_number']; ?>
+					<? echo $client['phone_number']; ?>
 				</li>
 				<li class="items" lang="en">
 					<i class="fa fa-barcode"></i>
-					<? echo $user['code']; ?>
+					<? echo $client['code']; ?>
 				</li>
 			</ul>
 		</div>
@@ -118,6 +118,7 @@ if(count($client) == 0)
 					$answered = 0;
 					while($row = mysqli_fetch_assoc($result))
 					{
+						$exams[] = $row['exam_name'];
 						?>
 						<tr>
 							<?
@@ -159,12 +160,26 @@ if(count($client) == 0)
 			</tbody>
 		</table>
 		<div class="span3">
-			<p>آزمون جدید لازم است؟ </p> 
-			<select name="type">
-				<option value=0>داوطلب</option>
-				<option value=1>مشاور</option>
-			</select>
-			<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
+			<form name="add_exam_form" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+
+				<p>آزمون جدید لازم است؟ </p> 
+				<select name="type">
+					<?php
+					$sql = "SELECT exam_name FROM exams_list";
+					$result = mysqli_query($connection,$sql);
+					$all_exams = array();
+					while($row = mysqli_fetch_assoc($result))
+						$all_exams[] = $row['exam_name'];
+					$remained = array_diff($all_exams,$exams);
+					for($i = 0; $i < count($remained); $i++)
+					{
+						?><option value="<?php echo $remained[$i];?>"><?php echo $remained[$i] ?></option>
+						<?
+					}
+					?>
+				</select>
+				<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
+			</form>
 		</div>
 	</div>
 </div>

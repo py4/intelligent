@@ -11,7 +11,8 @@ else
 
 if (mysqli_connect_errno())
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
-
+$query = "DROP DATABASE ".$db_name;
+mysqli_query($connection,$query) or die(mysqli_error($connection));
 mysqli_query($connection,"CREATE DATABASE IF NOT EXISTS ".$db_name." CHARACTER SET utf8 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT COLLATE utf8_general_ci") or die(mysqli_error($connection));
 echo "<b> database created </b><br>";
 
@@ -54,7 +55,7 @@ foreach ($files as $name)
 	$sql = "CREATE TABLE IF NOT EXISTS $exam_name(ID int NOT NULL AUTO_INCREMENT, primary key (id), question_content TEXT(150), choice1_score INT DEFAULT 0, choice2_score INT DEFAULT 0, choice3_score INT DEFAULT 0, choice4_score INT DEFAULT 0, choice5_score INT DEFAULT 0)";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
-	$sql = "INSERT INTO exams_list(exam_name) VALUES('$exam_name')";
+	$sql = "INSERT INTO exams_list (exam_name) VALUES('$exam_name')";
 	mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 	$sql = "DELETE FROM choices WHERE exam_name='$exam_name'";
