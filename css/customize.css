@@ -1,4 +1,7 @@
 @import url("droidarabicnaskh.css");
+@import url(http://fonts.googleapis.com/css?family=Capriola);
+
+:lang(en){font-family: 'Capriola', sans-serif;}
 
 body {
 	font-family: 'Droid Arabic Naskh', serif;
@@ -150,4 +153,59 @@ div.client_exams {
 
 .label {
   padding: 6px 9px;
+}
+
+/* Rounded avatars */
+.avatar {
+    height: 200px;
+    width: 200px;
+    /*float: left;*/
+    margin-top: 1em;
+    margin-right: 1em;
+    position: relative;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+
+}
+
+div.client_info {
+ /* color: white;
+  background-color: black; */
+  height:500px;
+  padding-right: 50px;
+}
+
+div.client_info p.username {
+  font-size: 40px;
+  font-family: 'Capriola', sans-serif;
+  padding-right:50px;
+  padding-top: 20px;
+}
+
+img.user_pic {
+ /* margin-right: -2px; */
+}
+
+div.client_view {
+  margin-top: 50px;
+}
+
+ul.profile_info_detail {
+  padding-top: 30px;
+  margin-: 10px;
+}
+li.items {
+  margin:0 0 10px 0;   
+}
+
+p.show_client_title {
+  font-size: 30px;
+  padding-right: 30px;
+  padding-top: 5px;
 }

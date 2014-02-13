@@ -60,8 +60,8 @@ $user = mysqli_fetch_assoc($result);
 		<div class="span4">
 			<ul class="thumbnails">
 				<li class="span3">
-					<a href="#" class="thumbnail">
-						<img src="img/avatar.png" alt="">
+					<a href="#" class="thumbnail user_pic">
+						<img src="img/avatar.png" alt="" class="user_pic">
 					</a>
 					<p class="username">
 						<? echo $user['username']; ?>
@@ -72,7 +72,7 @@ $user = mysqli_fetch_assoc($result);
 							<? echo $user['name']; ?>
 							<? echo $user['family_name']; ?>
 						</li>
-						<li class="items">
+						<li class="items" lang="en">
 							<i class="fa fa-envelope"></i>
 							<? echo $user['email']; ?>
 						</li>

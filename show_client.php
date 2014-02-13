@@ -69,152 +69,104 @@ if(count($client) == 0)
 ?>
 
 <br><br><br>
-<div class="profile_info">
-	<div class="row">
-		<div class="span1">
-		</div>
-		<div class="span4">
-			<ul class="thumbnails">
-				<li class="span3">
-					<a href="#" class="thumbnail">
-						<img src="img/adviser.png" alt="">
-					</a>
-					<p class="username">
-						<? echo $user['username']; ?>
-					</p>
-					<ul class="non_list profile_info_detail">
-						<li class="items">	
-							<i class="fa fa-question-circle"></i>
-							<? echo $user['name']; ?>
-							<? echo $user['family_name']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-envelope"></i>
-							<? echo $user['email']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-phone-square"></i>
-							<? echo $user['phone_number']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-barcode"></i>
-							<? echo $user['code']; ?>
-						</li>
-					</ul>
+<p class="show_client_title">
+مشاهده‌ی داوطلب
+</p>
+<div class="container-fluid client_view">
+	<div class="row-fluid">
+		<div class="span3 client_info">
+			<img class="avatar user_pic" src="img/adviser.png">
+			<p class="username">
+				<? echo $user['username']; ?>
+			</p>
+			<ul class="non_list profile_info_detail">
+				<li class="items">	
+					<i class="fa fa-question-circle"></i>
+					<? echo $user['name']; ?>
+					<? echo $user['family_name']; ?>
+				</li>
+				<li class="items" lang="en">
+					<i class="fa fa-envelope"></i>
+					<? echo $user['email']; ?>
+				</li>
+				<li class="items" lang="en">
+					<i class="fa fa-phone-square"></i>
+					<? echo $user['phone_number']; ?>
+				</li>
+				<li class="items" lang="en">
+					<i class="fa fa-barcode"></i>
+					<? echo $user['code']; ?>
 				</li>
 			</ul>
 		</div>
-		<div class="span1">
-		</div>
-		<div class="span3 client_in_adviser">
-			<ul class="thumbnails">
-				<li class="span2">
-					<a href="#" class="thumbnail">
-						<img src="img/avatar.png" alt="">
-					</a>
-					<p class="username">
-						<? echo $client['username']; ?>
-					</p>
-					<ul class="non_list profile_info_detail">
-						<li class="items">	
-							<i class="fa fa-question-circle"></i>
-							<? echo $client['name']; ?>
-							<? echo $client['family_name']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-envelope"></i>
-							<? echo $client['email']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-phone-square"></i>
-							<? echo $client['phone_number']; ?>
-						</li>
-						<li class="items">
-							<i class="fa fa-barcode"></i>
-							<? echo $client['code']; ?>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div class="span7 with-border client_exams">
-			<div class="alert alert-success">
-				آزمون‌ها
-			</div>
-			<div class="row">
-				<div class="span4">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th> وضعیت </th>
-								<th> نام آزمون </th>
-								<th> نتیجه </th>
-								<th> عملیات </th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$sql = "SELECT * FROM user_exams WHERE username = '$client_username'";
-							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-							$exams = array();
-							$not_answered = 0;
-							$answered = 0;
-							while($row = mysqli_fetch_assoc($result))
+		<div class="span8">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> وضعیت </th>
+						<th> نام آزمون </th>
+						<th> نتیجه </th>
+						<th> عملیات </th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$sql = "SELECT * FROM user_exams WHERE username = '$client_username'";
+					$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+					$exams = array();
+					$not_answered = 0;
+					$answered = 0;
+					while($row = mysqli_fetch_assoc($result))
+					{
+						?>
+						<tr>
+							<?
+							$exam_name = $row['exam_name'];
+							if($row['answered'])
 							{
+								$answered++;
 								?>
-								<tr>
-									<?
-									$exam_name = $row['exam_name'];
-									if($row['answered'])
-									{
-										$answered++;
-										?>
-										<td><span class="label label-success">داده</span></td>
-										<td><? echo $exam_name ?></td>
-										<td>
-											<?php
-											$client_id = $client['id'];
-											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
-											$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-											$data = mysql_fetch_assoc($result);
-											echo $data['score'];
-											?>
-										</td>
-										<?			
-									}
-									else
-									{
-										$not_answered++;
-										?>
-										<td><span class="label label-important">نداده</span></td>
-										<td><? echo $exam_name ?></td>
-										<td> ؟ </td>
-										<?
-
-									}
+								<td><span class="label label-success">داده</span></td>
+								<td><? echo $exam_name ?></td>
+								<td>
+									<?php
+									$client_id = $client['id'];
+									$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
+									$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+									$data = mysql_fetch_assoc($result);
+									echo $data['score'];
 									?>
-									<td> <a href="#">حذف</a></td>
-								</tr>
+								</td>
+								<?			
+							}
+							else
+							{
+								$not_answered++;
+								?>
+								<td><span class="label label-important">نداده</span></td>
+								<td><? echo $exam_name ?></td>
+								<td> ؟ </td>
 								<?
+
 							}
 							?>
+							<td> <a href="#">حذف</a></td>
 						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="span2">
-				<p>آزمون جدید لازم است؟ </p> 
-				<select name="type">
-					<option value=0>داوطلب</option>
-					<option value=1>مشاور</option>
-				</select>
-			</div>
+						<?
+					}
+					?>
+				</tr>
+			</tbody>
+		</table>
+		<div class="span3">
+			<p>آزمون جدید لازم است؟ </p> 
+			<select name="type">
+				<option value=0>داوطلب</option>
+				<option value=1>مشاور</option>
+			</select>
+			<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
 		</div>
 	</div>
-
-	<div class="span3">
-	</div>
-</div>		
 </div>
 </div>
 <?
