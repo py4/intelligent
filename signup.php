@@ -34,6 +34,9 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include 'templates/header.php';
+?>
+<body class="special">
+<?
 session_start();
 
 
@@ -136,5 +139,8 @@ for($i = 0; $i < count($fields) ; $i++)
 			die();
 		}
 	}
+	?>
+	</body>
+	<?
 	include 'templates/footer.php';
 	?> 

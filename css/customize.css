@@ -225,7 +225,7 @@ html {
   
 }
 
-body {
+body.special {
   background: url('../img/gs.png');
   /*background = gradient + image pattern combo*/
   background: 
@@ -297,3 +297,11 @@ body {
   color: #666;
   margin-bottom: 20px;
 }
+
+p.show_adviser_title {
+  font-size: 30px;
+  padding-right: 110px;
+  padding-top:20px;
+  padding-bottom: 20px;
+}
+

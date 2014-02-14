@@ -50,9 +50,9 @@ $user = mysqli_fetch_assoc($result);
 ?>
 
 <br><br><br>
-<div class="alert alert-info">
-	پروفایل
-</div>
+<p class="show_adviser_title">
+	پروفایل شما
+</p>
 <div class="profile_info">
 	<div class="row">
 		<div class="span1">

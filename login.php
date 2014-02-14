@@ -1,6 +1,9 @@
 <?php
 session_start();
 include 'templates/header.php';
+?>
+<body class="special">
+<?
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include("config/config.php");
@@ -71,6 +74,8 @@ if(!isset($_POST['username']) or !isset($_POST['password']))
     die();
   }
 }
-
+?>
+</body>
+<?
 include 'templates/footer.php';
 ?>

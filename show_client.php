@@ -47,14 +47,17 @@ $sql = "SELECT * FROM users WHERE username = '$user_name'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $user = mysqli_fetch_assoc($result);
 
-if(!isset($_GET['client_username']))
+if(!isset($_GET['client_username']) and !isset($_POST['client_username']))
 {
 	$_SESSION['failure_message'] = 'کاربر یافت نشد.';
 	header("Location: adviser.php");
 	die();
 }
+if(isset($_GET['client_username']))	
+	$client_username = $_GET['client_username'];
+else
+	$client_username = $_POST['client_username'];
 
-$client_username = $_GET['client_username'];
 $code = $user['code'];
 $sql = "SELECT * FROM users where username = '$client_username' and adviser_code = '$code'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
@@ -66,6 +69,35 @@ if(count($client) == 0)
 	die();
 }
 
+//echo $_SERVER['REQUEST_METHOD'];
+//die();
+
+if(isset($_POST['command']))
+{
+	if($_POST['command'] == 'delete_exam_from_user')
+	{
+		if(isset($_POST['exam_name']))
+		{
+			$exam_name = $_POST['exam_name'];
+			$sql = "DELETE FROM user_exams WHERE exam_name = '$exam_name'";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			header("Location: show_client.php?client_username=".$client_username);
+			die();
+		}
+	}
+	else if($_POST['command'] == 'add_exam_to_user')
+	{
+		if(isset($_POST['exam_name'])) /* TODO: check exam_name validity */
+		{
+			$exam_name = $_POST['exam_name'];
+			$sql = "INSERT INTO user_exams(username,exam_name) VALUES('$client_username','$exam_name')";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			$_SESSION['success_message'] = 'اضافه شد';
+			header("Location: show_client.php?client_username=".$client_username);
+			die();
+		}
+	}
+}
 ?>
 
 <br><br><br>
@@ -151,7 +183,15 @@ if(count($client) == 0)
 
 							}
 							?>
-							<td> <a href="#">حذف</a></td>
+							<td> 
+								<form id="delete_exam" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
+									<input name="command" type="hidden" value="delete_exam_from_user" />
+									<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+									<input name="exam_name" type="hidden" value="<?echo $exam_name;?>"  />
+									<a href="#" onclick="document.getElementById('delete_exam').submit();">حذف</a>
+								</form>
+							</td>
+							
 						</tr>
 						<?
 					}
@@ -161,9 +201,10 @@ if(count($client) == 0)
 		</table>
 		<div class="span3">
 			<form name="add_exam_form" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
-
+				<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+				<input name="command" type="hidden" value="add_exam_to_user"  />
 				<p>آزمون جدید لازم است؟ </p> 
-				<select name="type">
+				<select name="exam_name">
 					<?php
 					$sql = "SELECT exam_name FROM exams_list";
 					$result = mysqli_query($connection,$sql);
@@ -171,9 +212,9 @@ if(count($client) == 0)
 					while($row = mysqli_fetch_assoc($result))
 						$all_exams[] = $row['exam_name'];
 					$remained = array_diff($all_exams,$exams);
-					for($i = 0; $i < count($remained); $i++)
+					foreach($remained as $value)
 					{
-						?><option value="<?php echo $remained[$i];?>"><?php echo $remained[$i] ?></option>
+						?><option value="<?php echo $value;?>"><?php echo $value; ?></option>
 						<?
 					}
 					?>
