@@ -46,11 +46,11 @@ $user_name = $_SESSION['username'];
 $sql = "SELECT * FROM users WHERE username = '$user_name'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $user = mysqli_fetch_assoc($result);
-
+$code = $user['code'];
 if(isset($_POST['command']))
 {
 	if($_POST['command'] == 'add_client_to_adviser')
-	{
+		{   /* TODO: you can't add yourself */
 		if(isset($_POST['client_code'])) // TODO: validate client code
 		{
 			$client_code = $_POST['client_code'];
@@ -69,7 +69,6 @@ if(isset($_POST['command']))
 				header("Location: adviser.php");
 				die();	
 			}
-			$code = $user['code'];
 			$sql = "UPDATE users SET adviser_code='$code' WHERE code='$client_code' LIMIT 1";
 			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 			$_SESSION['success_message'] = 'با موفقیت اضافه شد';
@@ -77,14 +76,32 @@ if(isset($_POST['command']))
 			die();
 		}
 	}
+	if($_POST['command'] == 'remove_client_from_adviser')
+	{
+		if(isset($_POST['client_code'])) // TODO: validate client code
+		{
+			$client_code = $_POST['client_code'];
+			/*$sql = "SELECT * FROM users WHERE code = '$client_code' and adviser_code = '$code' LIMIT 1";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			$client = mysqli_fetch_assoc($result);
+			if(count($client) == 0)
+			{
+				$_SESSION['failure_message'] = 'کاربر یافت نشد.';
+				header("Location: adviser.php");
+				die();
+			}*/
+			$sql = "UPDATE users SET adviser_code=NULL WHERE code='$client_code' and adviser_code = '$code' LIMIT 1";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			$_SESSION['success_message'] = 'با موفقیت اضافه شد';
+			header("Location: adviser.php");
+			die();
+		}
+	}
 }
-
+/* TODO: pagination */
 ?>
 
-<br><br><br>
-<p class="show_adviser_title">
-	پروفایل شما
-</p>
+<br><br>
 <div class="profile_info">
 	<div class="row">
 		<div class="span1">
@@ -120,51 +137,63 @@ if(isset($_POST['command']))
 				</li>
 			</ul>
 		</div>
-		<div class="span5 with-border">
-			<div class="alert alert-success">
-				کاربران
-			</div>
+		<div class="span5 adviser_actions">
 			<div class="row">
 				<div class="span5">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th> نام </th>
-								<th> نام خانوادگی </th>
-								<th> نام کاربری </th>
-								<th> عملیات </th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$code = $user['code'];
-							$sql = "SELECT * FROM users WHERE adviser_code = '$code'";
-							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-							while($u = mysqli_fetch_assoc($result))
-							{
-								?>
-								<tr>
-									<td><?echo $u['name'];?></td>
-									<td><?echo $u['family_name'];?></td>
-									<td><?echo $u['username'];?></td>
-									<td><a href="show_client.php?client_username=<? echo $u['username']; ?>">مشاهده</a> | <a href="#">حذف</a> </td>
-								</tr>
-								<?
-							}
-							?>
-						</tbody>
-					</table>
-					<div class="add_client_to_adviser">
-						<p style="font-weight: bold;">
-							اضافه کردن کاربر؟
-						</p>
-						<form class="navbar-form form-search" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
-							<div class="input-append">
-								<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query" placeholder="کد کاربری" name="client_code">
-								<input name="command" type="hidden" value="add_client_to_adviser"  />
-								<button type="submit" class="btn btn-info">اضافه کن</button>
+					<div id="msform">
+						<!-- progressbar -->
+						<!-- fieldsets -->
+						<fieldset>
+							<h2 class="fs-title">متقضایان</h2>
+							<br><br>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th> نام </th>
+										<th> نام خانوادگی </th>
+										<th> نام کاربری </th>
+										<th> عملیات </th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$code = $user['code'];
+									$sql = "SELECT * FROM users WHERE adviser_code = '$code'";
+									$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+									while($u = mysqli_fetch_assoc($result))
+									{
+										?>
+										<tr>
+											<td><?echo $u['name'];?></td>
+											<td><?echo $u['family_name'];?></td>
+											<td><?echo $u['username'];?></td>
+											<td>
+												<a href="show_client.php?client_username=<? echo $u['username']; ?>">مشاهده</a> | <a href="#" onclick="document.getElementById('remove_client').submit();">حذف</a>
+												<form id="remove_client" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
+													<input name="command" type="hidden" value="remove_client_from_adviser" />
+													<input name="client_code" type="hidden" value="<?echo $u['code'];?>"  />
+												</form>
+											</td>
+										</tr>
+										<?
+									}
+									?>
+								</tbody>
+							</table>
+
+							<div class="add_client_to_adviser">
+								<p style="font-weight: bold;">
+									اضافه کردن کاربر؟
+								</p>
+								<form class="navbar-form form-search" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+									<div class="input-append2">
+										<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query" placeholder="کد کاربری" name="client_code">
+										<input name="command" type="hidden" value="add_client_to_adviser"  />
+										<button type="submit" class="btn btn-info">اضافه کن</button>
+									</div>
+								</form>
 							</div>
-						</form>
+						</fieldset>
 					</div>
 				</div>
 			</div>

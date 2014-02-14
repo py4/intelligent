@@ -8,16 +8,16 @@ body {
 }
 
 #footer {
-   position:fixed;
-   left:0px;
-   bottom:0px;
-   height:30px;
-   width:100%;
+ position:fixed;
+ left:0px;
+ bottom:0px;
+ height:30px;
+ width:100%;
 }
 
 a:hover, a:visited, a:link, a:active
 {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a.by {
@@ -69,10 +69,17 @@ ul.exams li {
 div.with-border {
   border: 1px solid #d5d5d5;
   -webkit-border-radius: 10px;
--moz-border-radius: 10px;
-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 }
 
+p.show_adviser_title {
+  color: black;
+}
+
+div.profile_info {
+  color: black;
+}
 div.profile_info div.with-border {
   margin-top:50px;
 }
@@ -91,10 +98,10 @@ div.exam_title {
 
 div.question {
   margin-top:50px;
- border: 1px solid #d5d5d5;
+  border: 1px solid #d5d5d5;
   -webkit-border-radius: 10px;
--moz-border-radius: 10px;
-border-radius: 10px; 
+  -moz-border-radius: 10px;
+  border-radius: 10px; 
 }
 
 div.choices {
@@ -157,28 +164,28 @@ div.client_exams {
 
 /* Rounded avatars */
 .avatar {
-    height: 200px;
-    width: 200px;
-    /*float: left;*/
-    margin-top: 1em;
-    margin-right: 1em;
-    position: relative;
+  height: 200px;
+  width: 200px;
+  /*float: left;*/
+  margin-top: 1em;
+  margin-right: 1em;
+  position: relative;
 
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 
-    -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
-    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.2);
 
 }
 
 div.client_info {
  /* color: white;
-  background-color: black; */
-  height:500px;
-  padding-right: 50px;
+ background-color: black; */
+ height:500px;
+ padding-right: 50px;
 }
 
 div.client_info p.username {
@@ -225,16 +232,16 @@ html {
   
 }
 
-body.special {
+body {
   background: url('../img/gs.png');
   /*background = gradient + image pattern combo*/
   background: 
-    linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)), 
-    url('../img/gs.png');
+  linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)), 
+  url('../img/gs.png');
 }
 /*form styles*/
 #msform {
-  width: 400px;
+  width: 550px;
   margin: 50px auto;
   text-align: center;
   position: relative;
@@ -305,8 +312,15 @@ p.show_adviser_title {
   padding-bottom: 20px;
 }
 
-div.add_client_to_adviser {
-  margin-right: 60px;
-  padding-bottom: 10px;
+.input-append2 input
+{
+  height:20px;
+  padding-left:10px;
 }
 
+
+
+div.adviser_actions {
+  padding-top: 0px;
+  margin-bottom: 300px;
+}
