@@ -94,53 +94,66 @@ $user = mysqli_fetch_assoc($result);
 			</ul>
 		</div>
 		<div class="span7 with-border">
-			<div class="alert alert-success">
-				آزمون‌ها
-			</div>
-			<div class="row">
-				<div class="span2">
-					<ul class="non_list exams">
-						<?php
-							$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
-							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-							$exams = array();
-							$not_answered = 0;
-							$answered = 0;
-							while($row = mysqli_fetch_assoc($result))
-							{
-								$exam_name = $row['exam_name'];
-								if($row['answered'])
-								{
-									$answered++;
-									?>
-									<li> <span class="label label-success">دادید</span> <?echo $exam_name;?> </li>
-									<?			
-								}
-								else
-								{
-									$not_answered++;
-									?>
-									<li> <span class="label label-important">مانده</span>
-										<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
-											<?echo $exam_name; ?>
-										</a>
-									</li>
-									<?
-
-								}
-							}
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> وضعیت </th>
+						<th> نام آزمون </th>
+						<th> نتیجه </th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
+					$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+					$exams = array();
+					$not_answered = 0;
+					$answered = 0;
+					while($row = mysqli_fetch_assoc($result))
+					{
 						?>
-					</ul>
-				</div>
-				<div class="span4 profile_progress">
-					<span class="label label-inverse"> پیشرفت: </span>
-					<div class="progress progress-success">
-						<div class="bar" style="width: <?php echo 100*$answered / ($answered + $not_answered)?>%"></div>
-					</div>
-				</div>
-			</div>
+						<tr>
+							<?
+							$exam_name = $row['exam_name'];
+							if($row['answered'])
+							{
+								$answered++;
+								?>
+								<td> <span class="label label-success">دادید</span></td>
+								<td> <? echo $exam_name; ?> </td>
+								<td>
+									<?php
+									$user_id= $user['ID'];
+									$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$user_id' LIMIT 1";
+									$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+									$data = mysqli_fetch_assoc($result);
+									echo $data['score'];
+									?>
+								</td>
+								<?			
+							}
+							else
+							{
+								$not_answered++;
+								?>
+								<td> <span class="label label-important">مانده</span>
+								</td>
+								<td>
+									<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
+										<?echo $exam_name; ?>
+									</a>
+								</td>
+								<td> ? </td>
+								<?
+							}
+							?>
+						</tr>
+						<?
+					}
+					?>
+				</tbody>
+			</table>
 		</div>
-		
 	</div>
 </div>
 </div>

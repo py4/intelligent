@@ -80,6 +80,11 @@ p.show_adviser_title {
 div.profile_info {
   color: black;
 }
+
+div.client_info {
+  color: black;
+}
+
 div.profile_info div.with-border {
   margin-top:50px;
 }

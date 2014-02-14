@@ -100,7 +100,7 @@ if(isset($_POST['command']))
 }
 ?>
 
-<br>
+<br>	
 <div class="container-fluid client_view">
 	<div class="row-fluid">
 		<div class="span3 client_info">
