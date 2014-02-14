@@ -100,10 +100,7 @@ if(isset($_POST['command']))
 }
 ?>
 
-<br><br><br>
-<p class="show_client_title">
-	مشاهده‌ی داوطلب
-</p>
+<br>
 <div class="container-fluid client_view">
 	<div class="row-fluid">
 		<div class="span3 client_info">
@@ -132,96 +129,103 @@ if(isset($_POST['command']))
 			</ul>
 		</div>
 		<div class="span8">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th> وضعیت </th>
-						<th> نام آزمون </th>
-						<th> نتیجه </th>
-						<th> عملیات </th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$sql = "SELECT * FROM user_exams WHERE username = '$client_username'";
-					$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-					$exams = array();
-					$not_answered = 0;
-					$answered = 0;
-					while($row = mysqli_fetch_assoc($result))
-					{
-						$exams[] = $row['exam_name'];
-						?>
-						<tr>
-							<?
-							$exam_name = $row['exam_name'];
-							if($row['answered'])
+			<div id="msform">
+				<fieldset>
+					<h2 class="fs-title">مشاهده‌ی متقاضی</h2>
+					<br><br>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th> وضعیت </th>
+								<th> نام آزمون </th>
+								<th> نتیجه </th>
+								<th> عملیات </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$sql = "SELECT * FROM user_exams WHERE username = '$client_username'";
+							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+							$exams = array();
+							$not_answered = 0;
+							$answered = 0;
+							while($row = mysqli_fetch_assoc($result))
 							{
-								$answered++;
+								$exams[] = $row['exam_name'];
 								?>
-								<td><span class="label label-success">داده</span></td>
-								<td><? echo $exam_name ?></td>
-								<td>
-									<?php
-									$client_id = $client['id'];
-									$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
-									$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-									$data = mysql_fetch_assoc($result);
-									echo $data['score'];
-									?>
-								</td>
-								<?			
-							}
-							else
-							{
-								$not_answered++;
-								?>
-								<td><span class="label label-important">نداده</span></td>
-								<td><? echo $exam_name ?></td>
-								<td> ؟ </td>
-								<?
+								<tr>
+									<?
+									$exam_name = $row['exam_name'];
+									if($row['answered'])
+									{
+										$answered++;
+										?>
+										<td><span class="label label-success">داده</span></td>
+										<td><? echo $exam_name ?></td>
+										<td>
+											<?php
+											$client_id = $client['id'];
+											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
+											$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+											$data = mysql_fetch_assoc($result);
+											echo $data['score'];
+											?>
+										</td>
+										<?			
+									}
+									else
+									{
+										$not_answered++;
+										?>
+										<td><span class="label label-important">نداده</span></td>
+										<td><? echo $exam_name ?></td>
+										<td> ؟ </td>
+										<?
 
+									}
+									?>
+									<td> 
+										<form id="delete_exam" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
+											<input name="command" type="hidden" value="delete_exam_from_user" />
+											<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+											<input name="exam_name" type="hidden" value="<?echo $exam_name;?>"  />
+											<a href="#" onclick="document.getElementById('delete_exam').submit();">حذف</a>
+										</form>
+									</td>
+
+								</tr>
+								<?
 							}
 							?>
-							<td> 
-								<form id="delete_exam" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
-									<input name="command" type="hidden" value="delete_exam_from_user" />
-									<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
-									<input name="exam_name" type="hidden" value="<?echo $exam_name;?>"  />
-									<a href="#" onclick="document.getElementById('delete_exam').submit();">حذف</a>
-								</form>
-							</td>
-							
 						</tr>
-						<?
-					}
-					?>
-				</tr>
-			</tbody>
-		</table>
-		<div class="span3">
-			<form name="add_exam_form" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
-				<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
-				<input name="command" type="hidden" value="add_exam_to_user"  />
-				<p>آزمون جدید لازم است؟ </p> 
-				<select name="exam_name">
-					<?php
-					$sql = "SELECT exam_name FROM exams_list";
-					$result = mysqli_query($connection,$sql);
-					$all_exams = array();
-					while($row = mysqli_fetch_assoc($result))
-						$all_exams[] = $row['exam_name'];
-					$remained = array_diff($all_exams,$exams);
-					foreach($remained as $value)
-					{
-						?><option value="<?php echo $value;?>"><?php echo $value; ?></option>
-						<?
-					}
-					?>
-				</select>
+					</tbody>
+				</table>
+				<br><br>
+				<div class="span5">
+					<form name="add_exam_form" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+						<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+						<input name="command" type="hidden" value="add_exam_to_user"  />
+						<p>آزمون جدید لازم است؟ </p>
+						<select name="exam_name">
+							<?php
+							$sql = "SELECT exam_name FROM exams_list";
+							$result = mysqli_query($connection,$sql);
+							$all_exams = array();
+							while($row = mysqli_fetch_assoc($result))
+								$all_exams[] = $row['exam_name'];
+							$remained = array_diff($all_exams,$exams);
+							foreach($remained as $value)
+							{
+								?><option value="<?php echo $value;?>"><?php echo $value; ?></option>
+								<?
+							}
+							?>
+						</select>
 
-				<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
-			</form>
+						<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
+					</form>
+				</div>
+			</fieldset>
 		</div>
 	</div>
 </div>
