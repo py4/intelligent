@@ -32,41 +32,20 @@ if(isset($_SESSION['failure_message']) and $_SESSION['failure_message'] != "")
 function dump_login()
 {
   ?>
-  <div class="container-login">
-
-    <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-      <div class="control-group">
-        <label class="control-label" for="inputUsername">نام کاربری</label>
-        <div class="controls">
-          <input type="text" id="inputUsername" name="username" placeholder="نام کاربری">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputPassword">رمز عبور</label>
-        <div class="controls">
-          <input type="password" id="inputPassword" name="password" placeholder="رمز عبور">
-        </div>
-      </div>
-      <div class="control-group">
-      <label class="control-label" for="inputPassword">ورود به عنوان</label>
-        <div class="controls">
-          <select name="type">
-            <option value=0>داوطلب</option>
-            <option value=1>مشاور</option>
-          </select>
-        </div>
-      </div>
-      <div class="control-group">
-        <div class="controls">
-          <label class="checkbox">
-            <input type="checkbox"> مرا به خاطر بسپار
-          </label>
-          <button type="submit" class="btn btn-success">وارد شو!</button>
-        </div>
-      </div>
-    </form>
-
-  </div> <!-- /container -->
+  <form id="msform" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <!-- progressbar -->
+    <!-- fieldsets -->
+    <fieldset>
+      <h2 class="fs-title">ورود</h2>
+      <input type="text" name="username" placeholder="نام کاربری" />
+      <input type="password" name="password" placeholder="رمز عبور" />
+      <select name="type">
+        <option value=0>داوطلب</option>
+        <option value=1>مشاور</option>
+      </select>
+      <button type="submit" class="next action-button">وارد شو</button>
+    </fieldset>
+  </form>
   <?
 }
 
