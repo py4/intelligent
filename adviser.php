@@ -47,6 +47,38 @@ $sql = "SELECT * FROM users WHERE username = '$user_name'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $user = mysqli_fetch_assoc($result);
 
+if(isset($_POST['command']))
+{
+	if($_POST['command'] == 'add_client_to_adviser')
+	{
+		if(isset($_POST['client_code'])) // TODO: validate client code
+		{
+			$client_code = $_POST['client_code'];
+			$sql = "SELECT * FROM users WHERE code = '$client_code' LIMIT 1";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			$client = mysqli_fetch_assoc($result);
+			if(count($client) == 0)
+			{
+				$_SESSION['failure_message'] = 'کاربر یافت نشد.';
+				header("Location: adviser.php");
+				die();
+			}
+			if($client['adviser_code'] != NULL)
+			{
+				$_SESSION['failure_message'] = 'در حال حاضر، کاربر دارای مشاور می‌باشد.';
+				header("Location: adviser.php");
+				die();	
+			}
+			$code = $user['code'];
+			$sql = "UPDATE users SET adviser_code='$code' WHERE code='$client_code' LIMIT 1";
+			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+			$_SESSION['success_message'] = 'با موفقیت اضافه شد';
+			header("Location: adviser.php");
+			die();
+		}
+	}
+}
+
 ?>
 
 <br><br><br>
@@ -88,62 +120,55 @@ $user = mysqli_fetch_assoc($result);
 				</li>
 			</ul>
 		</div>
-		<div class="span3 with-border">
+		<div class="span5 with-border">
 			<div class="alert alert-success">
 				کاربران
 			</div>
 			<div class="row">
-				<div class="span2">
-					<ul class="adviser_users non_list">
-					<?
-						$code = $user['code'];
-						$sql = "SELECT * FROM users WHERE adviser_code = '$code'";
-						$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-						while($u = mysqli_fetch_assoc($result))
-						{
+				<div class="span5">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th> نام </th>
+								<th> نام خانوادگی </th>
+								<th> نام کاربری </th>
+								<th> عملیات </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$code = $user['code'];
+							$sql = "SELECT * FROM users WHERE adviser_code = '$code'";
+							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+							while($u = mysqli_fetch_assoc($result))
+							{
+								?>
+								<tr>
+									<td><?echo $u['name'];?></td>
+									<td><?echo $u['family_name'];?></td>
+									<td><?echo $u['username'];?></td>
+									<td><a href="show_client.php?client_username=<? echo $u['username']; ?>">مشاهده</a> | <a href="#">حذف</a> </td>
+								</tr>
+								<?
+							}
 							?>
-							<li> <a href="show_client.php?client_username=<? echo $u['username']; ?>"> <? echo $u['name']." ".$u['family_name']."(".$u['username'].")"; ?> </a> </li>
-							<?
-						}
-						?>
-					</ul>
-				</div>
-				<div class="span4 profile_progress">
-				</div>
-			</div>
-		</div>
-		<div class="span4 with-border">
-			<div class="alert alert-info">
-				جست‌وجوی کاربران
-			</div>
-			<div class="row">
-				<div class="span3 user_search">
-					<form class="navbar-form form-search">
-						<div class="input-append">
-        					<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query">
-        						<button class="btn btn-success">بیاب</button>
-    					</div>
-  					</form>
+						</tbody>
+					</table>
+					<div class="add_client_to_adviser">
+						<p style="font-weight: bold;">
+							اضافه کردن کاربر؟
+						</p>
+						<form class="navbar-form form-search" action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+							<div class="input-append">
+								<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query" placeholder="کد کاربری" name="client_code">
+								<input name="command" type="hidden" value="add_client_to_adviser"  />
+								<button type="submit" class="btn btn-info">اضافه کن</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="span4 with-border">
-			<div class="alert alert-info">
-				اضافه کردن کاربران
-			</div>
-			<div class="row">
-				<div class="span3 user_add">
-					<form class="navbar-form form-search">
-						<div class="input-append">
-						<span class="label label-inverse">کد کاربری</span>
-        					<input data-provide="typeahead" data-items="4"  type="text" class="span2 search-query">
-        						<button class="btn btn-success">بیاب</button>
-    					</div>
-  					</form>
-				</div>
-			</div>
-		</div>
-		
 	</div>
 </div>
 </div>
