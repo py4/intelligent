@@ -46,6 +46,12 @@ $user_name = $_SESSION['username'];
 $sql = "SELECT * FROM users WHERE username = '$user_name'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $user = mysqli_fetch_assoc($result);
+if($user['type'] == 0)
+{
+	$_SESSION['failure_message'] = "شما مشاور نیستید";
+	header("Location: user_profile.php");
+	die();
+}
 $code = $user['code'];
 if(isset($_POST['command']))
 {
