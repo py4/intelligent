@@ -164,10 +164,10 @@ if(isset($_POST['command']))
 										<td><? echo $exam_name ?></td>
 										<td>
 											<?php
-											$client_id = $client['id'];
+											$client_id = $client['ID'];
 											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
 											$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-											$data = mysql_fetch_assoc($result);
+											$data = mysqli_fetch_assoc($result);
 											echo $data['score'];
 											?>
 										</td>
