@@ -166,8 +166,8 @@ if(isset($_POST['command']))
 											<?php
 											$client_id = $client['ID'];
 											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$client_id'";
-											$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-											$data = mysqli_fetch_assoc($result);
+											$result2 = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+											$data = mysqli_fetch_assoc($result2);
 											echo $data['score'];
 											?>
 										</td>

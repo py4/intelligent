@@ -119,7 +119,7 @@ $user = mysqli_fetch_assoc($result);
 							{
 								$answered++;
 								?>
-								<td> <span class="label label-success">دادید</span></td>
+								<td> <span class="label label-success">	دادید</span></td>
 								<td> <? echo $exam_name; ?> </td>
 								<td>
 									<?
