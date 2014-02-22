@@ -46,7 +46,7 @@ if(mysqli_num_rows($result) == 0)
 
 $sql = "SELECT id FROM users WHERE username = '$username'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-$user_id = mysqli_fetch_assoc($result)['ID'];
+$user_id = mysqli_fetch_assoc($result)['id'];
 $sql = "SELECT * FROM scores WHERE exam_name = '$exam_name' AND user_id = '$user_id'";
 $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
 if(mysqli_num_rows($result) != 0)
@@ -55,6 +55,4 @@ if(mysqli_num_rows($result) != 0)
 	$_SESSION['failure_message'] = 'قبلا آزمون را پاسخ داده‌اید.';
 	die();
 }
-
-echo "fuck";
 ?>

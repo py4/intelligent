@@ -115,22 +115,22 @@ $user = mysqli_fetch_assoc($result);
 						<tr>
 							<?
 							$exam_name = $row['exam_name'];
-							if($row['answered'])
+							if($row['answered'] == 1)
 							{
 								$answered++;
 								?>
 								<td> <span class="label label-success">دادید</span></td>
 								<td> <? echo $exam_name; ?> </td>
 								<td>
-									<?php
+									<?
 									$user_id= $user['ID'];
 									$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$user_id' LIMIT 1";
-									$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-									$data = mysqli_fetch_assoc($result);
+									$result2 = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+									$data = mysqli_fetch_assoc($result2);
 									echo $data['score'];
 									?>
 								</td>
-								<?			
+								<?php			
 							}
 							else
 							{
