@@ -38,6 +38,32 @@ mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $sql = "CREATE TABLE IF NOT EXISTS exams_list(exam_name TEXT)";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
+
+$flow = fopen("metadata/flow/flow.txt","r");
+$sql = "CREATE TABLE flow_questions(ID int NOT NULL AUTO_INCREMENT, primary key (id), content TEXT(150))";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+if($flow)
+{
+	while(($line = fgets($flow)) !== false)
+	{
+		$sql = "INSERT INTO flow_questions(content) VALUES('$line')";
+		mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	}
+}
+else
+	die("flow file not found!"); //todo: to add customer agar bood dar db pak shavad va ezafe shavad
+$sql = "CREATE TABLE flow_values(ID int NOT NULL AUTO_INCREMENT, primary key (id), flow_question_id INT, user_id INT, value BOOLEAN DEFAULT 0)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+$state = fopen("metadata/flow/state.txt","r");
+$sql = "CREATE TABLE user_states(ID int NOT NULL AUTO_INCREMENT, primary key (id), content TEXT(150))";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+$sql = "CREATE TABLE state_values(ID"
+
+
+
+
+
+
 $files = scandir("metadata/exams");
 foreach ($files as $name)
 {

@@ -1,0 +1,17 @@
+flow questions:
+اضافه کردن کد کاربری داوطلب
+فعال کردن فرم اطلاعات اولیه شامل مصاحبه و فیزیک
+پر شدن فرم اطلاعات اولیه توسط داوطلب
+فعال کردن موردی آزمون‌های شناختی
+پرشدن آزمون‌های شناختی توسط داوطلب
+فعال کردن موردی آزمون‌های عاطلب و هیجانی
+پرشدن آزمون‌های عاطفی و هیجانی توسط داوطلب
+
+flow values:
+flow_question_id user_id
+flow_question_id user_id
+flow_question_id user_id
+flow_question_id user_id
+
+state options
+state value
