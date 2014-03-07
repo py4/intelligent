@@ -57,11 +57,18 @@ mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $state = fopen("metadata/flow/state.txt","r");
 $sql = "CREATE TABLE user_states(ID int NOT NULL AUTO_INCREMENT, primary key (id), content TEXT(150))";
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
-$sql = "CREATE TABLE state_values(ID"
-
-
-
-
+if($state)
+{
+	while(($line = fgets($state)) !== false)
+	{
+		$sql = "INSERT INTO user_states(content) VALUES('$line')";
+		mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	}
+}
+else
+die("state file not found!");
+$sql = "CREATE TABLE user_state_values(ID int NOT NULL AUTO_INCREMENT, primary key (id), user_state_id INT, user_id INT)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 
 $files = scandir("metadata/exams");

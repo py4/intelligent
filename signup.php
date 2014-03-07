@@ -34,6 +34,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include 'templates/header.php';
+include 'functions/user_functions.php';
 ?>
 <body class="special">
 <?
@@ -132,6 +133,7 @@ for($i = 0; $i < count($fields) ; $i++)
 			$password = md5(sha1($password));
 			$code = generate_randon_string();
 			$result = mysqli_query($connection,"INSERT INTO users (username,password,type,code,name,family_name,phone_number,email) VALUES('$username','$password','$type','$code','$name','$family','$phone_number','$email')") or die(mysqli_error($connection));
+			init_flow($username,$connection);
 			$_SESSION['username'] = $username;
 			$_SESSION['type'] = $type;
 			$_SESSION['success_message'] = "عضو شدید! کد کابربری شما '$code' است. آن را به مشاور بدهید تا به کاربران او اضافه شوید. این کد محرمانه است!";
