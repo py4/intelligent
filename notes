@@ -1,0 +1,2 @@
+#BUG: adviser should not have access to user_profile.php
+#BUG: user should not have acccess to show_client.php

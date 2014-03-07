@@ -19,4 +19,28 @@ function init_flow($username,$connection)
 	mysqli_query($connection,$query) or die(mysqli_error($connection));
 }
 
+//getting flow_questions
+//getting flow_values
+function get_user_flow_values($user_id,$connection)
+{
+	$sql = "SELECT * FROM flow_values where user_id = '$user_id'";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$flow_values = [];
+	while($row = mysqli_fetch_assoc($result))
+		$flow_values[] = $row;
+	$result = mysqli_query($connection,"SELECT * FROM flow_questions") or die(mysqli_error($connection));
+	$flow = Array();
+	$temp = Array();
+	while($row = mysqli_fetch_assoc($result))
+	{
+		$id = $row['ID'];
+		$temp['id'] = $id;
+		$temp['content'] = $row['content'];
+		$temp['value'] = $flow_values[$id-1]['value'];
+		$temp['value_id'] = $flow_values[$id-1]['ID'];
+		$flow[] = $temp;
+	}
+	return $flow;
+}
+
 ?>

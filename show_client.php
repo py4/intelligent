@@ -4,6 +4,7 @@ ini_set("display_errors", 1);
 session_start();
 include 'templates/header.php';
 include("config/config.php");
+include "functions/user_functions.php";
 $connection = mysqli_connect($host,$db_user,$db_password);
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 if(!$connection->set_charset("utf8"))
@@ -62,6 +63,7 @@ $code = $user['code'];
 $sql = "SELECT * FROM users where username = '$client_username' and adviser_code = '$code'";
 $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 $client = mysqli_fetch_assoc($result);
+$client_id = $client['ID'];
 if(count($client) == 0)
 {
 	$_SESSION['failure_message'] = 'کاربر یافت نشد.';
@@ -71,7 +73,6 @@ if(count($client) == 0)
 
 //echo $_SERVER['REQUEST_METHOD'];
 //die();
-
 if(isset($_POST['command']))
 {
 	if($_POST['command'] == 'delete_exam_from_user')
@@ -96,6 +97,16 @@ if(isset($_POST['command']))
 			header("Location: show_client.php?client_username=".$client_username);
 			die();
 		}
+	}
+	else if($_POST['command'] == 'change_flow_value')
+	{
+		$new_value = 1 - (int)$_POST['current_value'];
+		$flow_value_id = $_POST['flow_value_id'];
+		$sql = "UPDATE flow_values SET value = $new_value where user_id = '$client_id' and flow_question_id = '$flow_value_id'";
+		$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+		$_SESSION['success_message'] = 'تغییر یافت';
+		header("Location: show_client.php?client_username=".$client_username);
+		die();
 	}
 }
 ?>
@@ -128,10 +139,61 @@ if(isset($_POST['command']))
 				</li>
 			</ul>
 		</div>
-		<div class="span8">
+		<div class="span5 adviser_flow">
+		<div id="msform">
+			<?
+			$flow = get_user_flow_values($client['ID'],$connection);
+			?>
+			<fieldset>
+				<h2 class="fs-title">مراحل راهنمایی متقاضی</h2>
+				<br><br>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th> روند </th>
+							<th> وضعیت </th>
+							<th> عملیات </th>
+						</tr>
+					</thead>
+					<tbody>
+						<?
+							foreach($flow as $flow_info)
+							{
+								?>
+								<tr>
+									<td><?echo $flow_info['content']?></td>
+									<td>
+										<?
+											if($flow_info['value'] == 0)
+												echo "<span class=\"label label-important\">انجام نشده</span>";
+											else
+												echo "<span class=\"label label-success\">انجام شده</span>";
+										?>
+									</td>
+									<td>
+										<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
+											<input name="command" type="hidden" value="change_flow_value" />
+											<input name="flow_value_id" type="hidden" value="<?echo $flow_info['value_id'];?>"  />
+											<input name="current_value" type="hidden" value="<?echo $flow_info['value'];?>">
+											<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+											<button type="submit" class="btn btn-primary">تغییر</button>
+										</form>
+									</td>
+								<?
+								?>
+								</tr>
+								<?
+							}
+						?>
+					</tbody>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+		<div class="span4">
 			<div id="msform">
 				<fieldset>
-					<h2 class="fs-title">مشاهده‌ی متقاضی</h2>
+					<h2 class="fs-title">آزمون‌های متقاضی</h2>
 					<br><br>
 					<table class="table table-striped">
 						<thead>
@@ -228,6 +290,7 @@ if(isset($_POST['command']))
 			</fieldset>
 		</div>
 	</div>
+	
 </div>
 </div>
 <?

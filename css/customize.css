@@ -247,8 +247,8 @@ body {
 }
 /*form styles*/
 #msform {
-  width: 550px;
-  margin: 50px auto;
+  /*width: 550px;
+  margin: 50px auto;*/
   text-align: center;
   position: relative;
 }
@@ -257,14 +257,14 @@ body {
   border: 0 none;
   border-radius: 3px;
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px 30px;
+  /*padding: 20px 30px;*/
   
-  box-sizing: border-box;
-  width: 80%;
-  margin: 0 10%;
+  /*box-sizing: border-box;*/
+  /*width: 80%;
+  margin: 0 10%;*/
   
   /*stacking fieldsets above each other*/
-  position: absolute;
+/*  position: absolute;*/
 }
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
@@ -291,8 +291,8 @@ body {
   border: 0 none;
   border-radius: 1px;
   cursor: pointer;
-  padding: 10px 5px;
-  margin: 10px 5px;
+  /*padding: 10px 5px;
+  margin: 10px 5px;*/
 }
 #msform .action-button:hover, #msform .action-button:focus {
   box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
@@ -329,4 +329,8 @@ p.show_adviser_title {
 div.adviser_actions {
   padding-top: 0px;
   margin-bottom: 300px;
+}
+
+div.adviser_flow {
+  margin-bottom: 100px;
 }
