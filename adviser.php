@@ -60,7 +60,7 @@ if(isset($_POST['command']))
 		if(isset($_POST['client_code'])) // TODO: validate client code
 		{
 			$client_code = $_POST['client_code'];
-			$sql = "SELECT * FROM users WHERE code = '$client_code' LIMIT 1";
+			$sql = "SELECT * FROM users WHERE code = '$client_code' and type = 0 LIMIT 1";
 			$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 			$client = mysqli_fetch_assoc($result);
 			if(count($client) == 0)

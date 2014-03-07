@@ -118,6 +118,16 @@ if(isset($_POST['command']))
 		header("Location: show_client.php?client_username=".$client_username);
 		die();	
 	}
+	else if($_POST['command'] == 'update_user_custom_state')
+	{
+		$new_content = $_POST['content'];
+		$sql = "UPDATE users_custom_state SET content = '$new_content' where user_id = '$client_id' LIMIT 1";
+		echo "shit";
+		$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+		$_SESSION['success_message'] = 'ثبت شد';
+		header("Location: show_client.php?client_username=".$client_username);
+		die();		
+	}
 }
 ?>
 
@@ -156,7 +166,7 @@ if(isset($_POST['command']))
 				?>
 				<fieldset>
 					<h2 class="fs-title">مراحل راهنمایی متقاضی</h2>
-					<br><br>
+					
 					<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
 						<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
 						<input name="command" type="hidden" value="change_user_state"  />	
@@ -180,7 +190,7 @@ if(isset($_POST['command']))
 								?>
 							</select>
 						</span>
-						<button type="submit" class="btn btn-primary">اعمال وضعیت</button>
+						<button type="submit" class="btn btn-success">اعمال وضعیت</button>
 					</form>
 					<table class="table table-striped">
 						<thead>
@@ -229,7 +239,7 @@ if(isset($_POST['command']))
 			<div id="msform">
 				<fieldset>
 					<h2 class="fs-title">آزمون‌های متقاضی</h2>
-					<br><br>
+					
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -322,6 +332,22 @@ if(isset($_POST['command']))
 						<center><button type="submit" class="btn btn-primary">اضافه کن</button></center>
 					</form>
 				</div>
+			</fieldset>
+		</div>
+		<div id="msform">
+			<fieldset>
+				<h2 class="fs-title">پیغام وضعیت متقاضی</h2>
+				<p> وضعیت کاربر، که به صورت پیغام به او نمایش داده می‌شود. </p>
+				<div class="alert alert-info custom_state">
+					<? echo get_user_custom_state($client['ID'],$connection)['content']; ?>
+				</div>
+				<span class="right"><p> پیغام را در صورت نیاز تغییر دهید:</p></span>
+				<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+					<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+					<input name="command" type="hidden" value="update_user_custom_state"/>
+					<input name="content" type"textarea">
+					<button type="submit" class="btn btn-success">ثبت پیغام</button>
+				</form>
 			</fieldset>
 		</div>
 	</div>

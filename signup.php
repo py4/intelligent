@@ -134,6 +134,7 @@ for($i = 0; $i < count($fields) ; $i++)
 			$code = generate_randon_string();
 			$result = mysqli_query($connection,"INSERT INTO users (username,password,type,code,name,family_name,phone_number,email) VALUES('$username','$password','$type','$code','$name','$family','$phone_number','$email')") or die(mysqli_error($connection));
 			init_flow($username,$connection);
+			init_custom_state($username,$connection);
 			$_SESSION['username'] = $username;
 			$_SESSION['type'] = $type;
 			$_SESSION['success_message'] = "عضو شدید! کد کابربری شما '$code' است. آن را به مشاور بدهید تا به کاربران او اضافه شوید. این کد محرمانه است!";

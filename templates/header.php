@@ -9,7 +9,7 @@
 	<link href="css/customize.css?v=1" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js?v=1"></script>
 </head>
 <body>

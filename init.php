@@ -71,6 +71,9 @@ $sql = "CREATE TABLE user_state_values(ID int NOT NULL AUTO_INCREMENT, primary k
 mysqli_query($connection,$sql) or die(mysqli_error($connection));
 
 
+$sql = "CREATE TABLE users_custom_state(user_id INT, content TEXT)";
+mysqli_query($connection,$sql) or die(mysqli_error($connection));
+
 $files = scandir("metadata/exams");
 foreach ($files as $name)
 {

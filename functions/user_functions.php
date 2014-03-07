@@ -73,4 +73,21 @@ function get_states($user_id,$connection)
 	return $states;
 }
 
+function init_custom_state($username,$connection)
+{
+	$result = mysqli_query($connection,"SELECT * FROM `users` WHERE `username` = '$username' LIMIT 1") or die(mysqli_error($connection));
+	$user = mysqli_fetch_assoc($result);
+	$user_id = $user['ID'];
+	$sql = "INSERT INTO users_custom_state(user_id,content) VALUES('$user_id','منتظر اضافه شدن آزمون‌ها توسط مشاور باشید.')";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+}
+
+function get_user_custom_state($user_id,$connection)
+{
+	$sql = "SELECT * FROM users_custom_state where user_id = '$user_id' LIMIT 1";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$row = mysqli_fetch_assoc($result);
+	return $row;
+}
+
 ?>

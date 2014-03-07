@@ -338,3 +338,7 @@ div.adviser_flow {
 span.right {
   float: right;
 }
+
+div.custom_state {
+    word-wrap: break-word;
+}
