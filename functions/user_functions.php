@@ -43,4 +43,34 @@ function get_user_flow_values($user_id,$connection)
 	return $flow;
 }
 
+function get_user_state($user_id,$connection)
+{
+	$sql = "SELECT * FROM user_state_values where user_id = '$user_id' LIMIT 1";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$row = mysqli_fetch_assoc($result);
+	$state_id = $row['user_state_id'];
+	$sql = "SELECT * FROM user_states where id = $state_id LIMIT 1";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$row = mysqli_fetch_assoc($result);
+	return $row;
+}
+
+function get_states($user_id,$connection)
+{
+	$current_state = get_user_state($user_id,$connection);
+	$sql = "SELECT * FROM user_states";
+	$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+	$states = Array();
+	$temp = Array();
+	while($row = mysqli_fetch_assoc($result))
+	{
+		//if($row['ID'] == $current_state['user_state_id'])
+		//	continue;
+		$temp['state_id'] = $row['ID'];
+		$temp['content'] = $row['content'];
+		$states[] = $temp;
+	}
+	return $states;
+}
+
 ?>

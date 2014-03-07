@@ -100,13 +100,23 @@ if(isset($_POST['command']))
 	}
 	else if($_POST['command'] == 'change_flow_value')
 	{
-		$new_value = 1 - (int)$_POST['current_value'];
-		$flow_value_id = $_POST['flow_value_id'];
-		$sql = "UPDATE flow_values SET value = $new_value where user_id = '$client_id' and flow_question_id = '$flow_value_id'";
+		$old_value = (int)$_POST['current_value'];
+		$new_value = 1 - $old_value;
+		$flow_question_id = $_POST['flow_question_id'];
+		$sql = "UPDATE flow_values SET value = $new_value where user_id = '$client_id' and flow_question_id = '$flow_question_id'";
 		$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
 		$_SESSION['success_message'] = 'تغییر یافت';
 		header("Location: show_client.php?client_username=".$client_username);
 		die();
+	}
+	else if($_POST['command'] == 'change_user_state')
+	{
+		$value = $_POST['user_state'];
+		$sql = "UPDATE user_state_values SET user_state_id = $value where user_id = '$client_id' LIMIT 1";
+		$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+		$_SESSION['success_message'] = 'تغییر یافت';
+		header("Location: show_client.php?client_username=".$client_username);
+		die();	
 	}
 }
 ?>
@@ -140,23 +150,48 @@ if(isset($_POST['command']))
 			</ul>
 		</div>
 		<div class="span5 adviser_flow">
-		<div id="msform">
-			<?
-			$flow = get_user_flow_values($client['ID'],$connection);
-			?>
-			<fieldset>
-				<h2 class="fs-title">مراحل راهنمایی متقاضی</h2>
-				<br><br>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th> روند </th>
-							<th> وضعیت </th>
-							<th> عملیات </th>
-						</tr>
-					</thead>
-					<tbody>
-						<?
+			<div id="msform">
+				<?
+				$flow = get_user_flow_values($client['ID'],$connection);
+				?>
+				<fieldset>
+					<h2 class="fs-title">مراحل راهنمایی متقاضی</h2>
+					<br><br>
+					<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
+						<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
+						<input name="command" type="hidden" value="change_user_state"  />	
+						<span class="right">
+							وضعیت کلی داوطلب:
+							<select name="user_state">
+								<?
+								$current_state = get_user_state($client['ID'],$connection);
+								?>
+								<option value=<?echo $current_state['ID'];?>><?echo $current_state['content'];?></option>
+								<?
+								$states = get_states($client['ID'],$connection);
+								foreach($states as $state)
+								{
+									if($state['state_id'] == $current_state['ID'])
+										continue;
+									?>
+									<option value=<?echo $state['state_id'];?>><?echo $state['content'];?></option>
+									<?
+								}
+								?>
+							</select>
+						</span>
+						<button type="submit" class="btn btn-primary">اعمال وضعیت</button>
+					</form>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th> روند </th>
+								<th> وضعیت </th>
+								<th> عملیات </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?
 							foreach($flow as $flow_info)
 							{
 								?>
@@ -164,32 +199,32 @@ if(isset($_POST['command']))
 									<td><?echo $flow_info['content']?></td>
 									<td>
 										<?
-											if($flow_info['value'] == 0)
-												echo "<span class=\"label label-important\">انجام نشده</span>";
-											else
-												echo "<span class=\"label label-success\">انجام شده</span>";
+										if($flow_info['value'] == 0)
+											echo "<span class=\"label label-important\">انجام نشده</span>";
+										else
+											echo "<span class=\"label label-success\">انجام شده</span>";
 										?>
 									</td>
 									<td>
 										<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?>" method="POST">
 											<input name="command" type="hidden" value="change_flow_value" />
-											<input name="flow_value_id" type="hidden" value="<?echo $flow_info['value_id'];?>"  />
+											<input name="flow_question_id" type="hidden" value="<?echo $flow_info['id'];?>"  />
 											<input name="current_value" type="hidden" value="<?echo $flow_info['value'];?>">
 											<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
 											<button type="submit" class="btn btn-primary">تغییر</button>
 										</form>
 									</td>
-								<?
-								?>
+									<?
+									?>
 								</tr>
 								<?
 							}
-						?>
-					</tbody>
-				</table>
-			</fieldset>
+							?>
+						</tbody>
+					</table>
+				</fieldset>
+			</div>
 		</div>
-	</div>
 		<div class="span4">
 			<div id="msform">
 				<fieldset>

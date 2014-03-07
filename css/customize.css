@@ -334,3 +334,7 @@ div.adviser_actions {
 div.adviser_flow {
   margin-bottom: 100px;
 }
+
+span.right {
+  float: right;
+}
