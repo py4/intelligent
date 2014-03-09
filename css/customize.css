@@ -249,7 +249,7 @@ body {
 #msform {
   /*width: 550px;*/
   margin: 50px auto;
-  text-align: center;
+  /*text-align: center;*/
   position: relative;
 }
 #msform fieldset {
@@ -349,4 +349,16 @@ div.signup {
 
 div.signin {
   margin-right: 40%;
+}
+
+div.procedure li {
+  line-height: 30px;
+}
+
+h2.title-center {
+  padding-right: 27%;
+}
+
+div.title {
+  text-align: center;
 }

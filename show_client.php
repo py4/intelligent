@@ -165,8 +165,10 @@ if(isset($_POST['command']))
 				$flow = get_user_flow_values($client['ID'],$connection);
 				?>
 				<fieldset>
-					<h2 class="fs-title">مراحل راهنمایی متقاضی</h2>
-					
+					<div class="title">
+					<h3>مراحل راهنمایی متقاضی</h3>
+					<br>
+					</div>
 					<form action="<? echo htmlentities($_SERVER['PHP_SELF']) ?> " method="post">
 						<input name="client_username" type="hidden" value="<?echo $client_username;?>"  />
 						<input name="command" type="hidden" value="change_user_state"  />	
@@ -238,8 +240,10 @@ if(isset($_POST['command']))
 		<div class="span4">
 			<div id="msform">
 				<fieldset>
-					<h2 class="fs-title">آزمون‌های متقاضی</h2>
-					
+					<div class="title">
+					<h3>آزمون‌های متقاضی</h3>
+					</div>
+					<br>
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -336,7 +340,10 @@ if(isset($_POST['command']))
 		</div>
 		<div id="msform">
 			<fieldset>
-				<h2 class="fs-title">پیغام وضعیت متقاضی</h2>
+				<div class="title">
+					<h3>پیغام وضعیت متقاضی</h3>
+				</div>
+				<br>
 				<p> وضعیت کاربر، که به صورت پیغام به او نمایش داده می‌شود. </p>
 				<div class="alert alert-info custom_state">
 					<? echo get_user_custom_state($client['ID'],$connection)['content']; ?>

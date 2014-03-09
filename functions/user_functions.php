@@ -43,6 +43,15 @@ function get_user_flow_values($user_id,$connection)
 	return $flow;
 }
 
+function get_all_flows($connection)
+{
+	$result = mysqli_query($connection,"SELECT * FROM flow_questions") or die(mysqli_error($connection));
+	$flow_names = Array();
+	while($row = mysqli_fetch_assoc($result))
+		$flow_names[] = $row['content'];
+	return $flow_names;
+}
+
 function get_user_state($user_id,$connection)
 {
 	$sql = "SELECT * FROM user_state_values where user_id = '$user_id' LIMIT 1";

@@ -2,8 +2,11 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 session_start();
+
 include 'templates/header.php';
 include("config/config.php");
+include "functions/user_functions.php";
+
 $connection = mysqli_connect($host,$db_user,$db_password);
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 if(!$connection->set_charset("utf8"))
@@ -150,7 +153,7 @@ if(isset($_POST['command']))
 						<!-- progressbar -->
 						<!-- fieldsets -->
 						<fieldset>
-							<h2 class="fs-title">متقضایان</h2>
+							<h2 class="title-center">متقضایان</h2>
 							<br><br>
 							<table class="table table-striped">
 								<thead>
@@ -204,9 +207,24 @@ if(isset($_POST['command']))
 				</div>
 			</div>
 		</div>
+		<div class="span6 procedure">
+			<div id="msform">
+				<fieldset>
+					<h2> مراحل راهنمایی متقاضی </h2>
+					<br>
+					<ul>
+						<?
+						$flows = get_all_flows($connection);
+						foreach($flows as $flow)
+							echo "<li>$flow</li>";
+						?>
+						<ul>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-</div>
-<?
-include 'templates/footer.php';
-?>
+	<?
+	include 'templates/footer.php';
+	?>
