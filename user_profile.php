@@ -4,6 +4,7 @@ ini_set("display_errors", 1);
 session_start();
 include 'templates/header.php';
 include("config/config.php");
+include "functions/user_functions.php";
 $connection = mysqli_connect($host,$db_user,$db_password);
 mysqli_select_db($connection,$db_name) or die(mysqli_error($connection));
 if(!$connection->set_charset("utf8"))
@@ -93,66 +94,81 @@ $user = mysqli_fetch_assoc($result);
 				</li>
 			</ul>
 		</div>
-		<div class="span7 with-border">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th> وضعیت </th>
-						<th> نام آزمون </th>
-						<th> نتیجه </th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
-					$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-					$exams = array();
-					$not_answered = 0;
-					$answered = 0;
-					while($row = mysqli_fetch_assoc($result))
-					{
-						?>
-						<tr>
-							<?
-							$exam_name = $row['exam_name'];
-							if($row['answered'] == 1)
+		<div class="span7">
+			<div id="msform">
+				<fieldset>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th> وضعیت </th>
+								<th> نام آزمون </th>
+								<th> نتیجه </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$sql = "SELECT * FROM user_exams WHERE username = '$user_name'";
+							$result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+							$exams = array();
+							$not_answered = 0;
+							$answered = 0;
+							while($row = mysqli_fetch_assoc($result))
 							{
-								$answered++;
 								?>
-								<td> <span class="label label-success">	دادید</span></td>
-								<td> <? echo $exam_name; ?> </td>
-								<td>
+								<tr>
 									<?
-									$user_id= $user['ID'];
-									$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$user_id' LIMIT 1";
-									$result2 = mysqli_query($connection,$sql) or die(mysqli_error($connection));
-									$data = mysqli_fetch_assoc($result2);
-									echo $data['score'];
+									$exam_name = $row['exam_name'];
+									if($row['answered'] == 1)
+									{
+										$answered++;
+										?>
+										<td> <span class="label label-success">	دادید</span></td>
+										<td> <? echo $exam_name; ?> </td>
+										<td>
+											<?
+											$user_id= $user['ID'];
+											$sql = "SELECT score from scores WHERE exam_name = '$exam_name' and user_id = '$user_id' LIMIT 1";
+											$result2 = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+											$data = mysqli_fetch_assoc($result2);
+											echo $data['score'];
+											?>
+										</td>
+										<?php			
+									}
+									else
+									{
+										$not_answered++;
+										?>
+										<td> <span class="label label-important">مانده</span>
+										</td>
+										<td>
+											<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
+												<?echo $exam_name; ?>
+											</a>
+										</td>
+										<td> ? </td>
+										<?
+									}
 									?>
-								</td>
-								<?php			
-							}
-							else
-							{
-								$not_answered++;
-								?>
-								<td> <span class="label label-important">مانده</span>
-								</td>
-								<td>
-									<a href="submit_exam.php?exam_name=<?php echo $exam_name;?>">
-										<?echo $exam_name; ?>
-									</a>
-								</td>
-								<td> ? </td>
+								</tr>
 								<?
 							}
 							?>
-						</tr>
-						<?
-					}
-					?>
-				</tbody>
-			</table>
+						</tbody>
+					</table>
+				</fieldset>
+			</div>
+		</div>
+		<div class="span5">
+			<div id="msform">
+				<fieldset>
+					<h2 class="fs-title">پیغام وضعیت متقاضی</h2>
+					<p> پیغام زیر از طرف مشاور است. </p>
+					<div class="alert alert-info custom_state">
+						<? echo get_user_custom_state($user['ID'],$connection)['content']; ?>
+					</div>
+				</fieldset>
+			</div>
 		</div>
 	</div>
 </div>

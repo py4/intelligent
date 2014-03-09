@@ -247,8 +247,8 @@ body {
 }
 /*form styles*/
 #msform {
-  /*width: 550px;
-  margin: 50px auto;*/
+  /*width: 550px;*/
+  margin: 50px auto;
   text-align: center;
   position: relative;
 }
@@ -257,11 +257,11 @@ body {
   border: 0 none;
   border-radius: 3px;
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  /*padding: 20px 30px;*/
+  padding: 20px 30px;
   
-  /*box-sizing: border-box;*/
-  /*width: 80%;
-  margin: 0 10%;*/
+  box-sizing: border-box;
+  width: 100%;
+  /*margin: 0 10%;*/
   
   /*stacking fieldsets above each other*/
 /*  position: absolute;*/
@@ -276,7 +276,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-bottom: 10px;
-  width: 100%;
+  /*width: 100%;*/
   box-sizing: border-box;
   font-family: montserrat;
   color: #2C3E50;
@@ -341,4 +341,12 @@ span.right {
 
 div.custom_state {
     word-wrap: break-word;
+}
+
+div.signup {
+  margin-right: 40%;
+}
+
+div.signin {
+  margin-right: 40%;
 }
